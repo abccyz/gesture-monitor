@@ -1,0 +1,92 @@
+[
+  {
+    "id": "comp-view-tabs",
+    "name": "view-tabs",
+    "type": "navigation",
+    "description": "",
+    "usedIn": [
+      "page-6a673190"
+    ]
+  },
+  {
+    "id": "comp-main-panel",
+    "name": "main-panel",
+    "type": "container",
+    "description": "",
+    "usedIn": [
+      "page-6a673190"
+    ]
+  },
+  {
+    "id": "comp-right-sidebar",
+    "name": "right-sidebar",
+    "type": "container",
+    "description": "",
+    "usedIn": [
+      "page-6a673190"
+    ]
+  },
+  {
+    "id": "comp-gesture-stats",
+    "name": "gesture-stats",
+    "type": "chart",
+    "description": "",
+    "usedIn": [
+      "page-6a673190"
+    ]
+  },
+  {
+    "id": "comp-app-shell",
+    "name": "app-shell",
+    "type": "container",
+    "description": "",
+    "usedIn": [
+      "page-6a673190"
+    ]
+  },
+  {
+    "id": "comp-device-list",
+    "name": "device-list",
+    "type": "list",
+    "description": "",
+    "usedIn": [
+      "page-6a673190"
+    ]
+  },
+  {
+    "id": "comp-title-bar",
+    "name": "title-bar",
+    "type": "header",
+    "description": "",
+    "usedIn": [
+      "page-6a673190"
+    ]
+  },
+  {
+    "id": "comp-touchpad-visualization",
+    "name": "touchpad-visualization",
+    "type": "media",
+    "description": "",
+    "usedIn": [
+      "page-6a673190"
+    ]
+  },
+  {
+    "id": "comp-live-telemetry",
+    "name": "live-telemetry",
+    "type": "card",
+    "description": "",
+    "usedIn": [
+      "page-6a673190"
+    ]
+  },
+  {
+    "id": "comp-gesture-event-stream",
+    "name": "gesture-event-stream",
+    "type": "table",
+    "description": "",
+    "usedIn": [
+      "page-6a673190"
+    ]
+  }
+]

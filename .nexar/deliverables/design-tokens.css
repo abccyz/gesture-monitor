@@ -1,0 +1,18 @@
+/* Design Tokens - exported from Nexar Design Mode */
+:root {
+  --color-background: #4fd1c5;
+  --color-primary: #d4a853;
+  --color-secondary: #4fd1c5;
+  --color-surface: #ffffff;
+  --color-text: #d4a853;
+  --color-text_secondary: #000000;
+  --spacing-lg: 6px;
+  --spacing-md: 5px;
+  --spacing-sm: 2px;
+  --spacing-xl: 9px;
+  --spacing-xs: 0px;
+  --radius-lg: 8px;
+  --radius-md: 6px;
+  --radius-sm: var(--r2);
+  --radius-xl: 999px;
+}

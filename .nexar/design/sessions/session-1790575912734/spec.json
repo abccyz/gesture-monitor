@@ -1,0 +1,81 @@
+{
+  "border_radius": {
+    "lg": "8px",
+    "md": "6px",
+    "sm": "var(--r2)",
+    "xl": "999px"
+  },
+  "breakpoints": {
+    "2xl": "1920px",
+    "lg": "1024px",
+    "md": "768px",
+    "sm": "640px",
+    "xl": "1366px"
+  },
+  "colors": {
+    "background": "#4fd1c5",
+    "primary": "#d4a853",
+    "secondary": "#4fd1c5",
+    "surface": "#ffffff",
+    "text": "#d4a853",
+    "text_secondary": "#000000"
+  },
+  "measured": {
+    "at": "2026-09-29T05:07:08.191820945+00:00",
+    "from": "design-html",
+    "palette": [
+      "#ffffff",
+      "#d4a853",
+      "#4fd1c5",
+      "#000000",
+      "#4ecb8f",
+      "#e05c5c",
+      "#1a1f27",
+      "#222831",
+      "#151920",
+      "#5b9dff",
+      "#8ee6b6",
+      "#f09393",
+      "#080a0d",
+      "#0c0e12",
+      "#0f1216",
+      "#12161c",
+      "#161a20",
+      "#181c22",
+      "#191d24",
+      "#1c2129",
+      "#1e2229",
+      "#1e232b",
+      "#22262d",
+      "#231a07",
+      "#262b33",
+      "#2b323c",
+      "#2c3138",
+      "#31373f",
+      "#3a4048"
+    ]
+  },
+  "spacing": {
+    "lg": "6px",
+    "md": "5px",
+    "sm": "2px",
+    "xl": "9px",
+    "xs": "0px"
+  },
+  "typography": {
+    "body": {
+      "line_height": 1.6,
+      "size": "12px",
+      "weight": 400
+    },
+    "font_family": "Inter",
+    "h1": {
+      "size": "18px",
+      "weight": 700
+    },
+    "h2": {
+      "size": "24px",
+      "weight": 600
+    }
+  }
+}

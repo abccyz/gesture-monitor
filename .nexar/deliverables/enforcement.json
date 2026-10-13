@@ -1,0 +1,70 @@
+{
+  "version": "1.0",
+  "violations": [
+    {
+      "id": "api-1790671259949638200",
+      "kind": "invented_api",
+      "action": "warn",
+      "at": "2026-09-29T08:40:59.949640022+00:00",
+      "toolName": "write_file_chunk",
+      "detail": "越界 API: /api/core, /api/event",
+      "remediation": "BLOCKED: 实现规格约束（no-invented-api）——代码引用了实现规格 / tech_plan 未声明的接口：\n- /api/core\n- /api/event\n\n允许的接口白名单：\n（tech_plan 未声明任何接口）\n\n请改用白名单内的接口；若确需新增接口，请先在技术规划（tech_plan）中补充契约，或开启「允许新增接口」逃生口（会记录留痕）。"
+    },
+    {
+      "id": "api-1790671825309653846",
+      "kind": "invented_api",
+      "action": "warn",
+      "at": "2026-09-29T08:50:25.309656237+00:00",
+      "toolName": "edit_file",
+      "detail": "越界 API: /api/core, /api/event",
+      "remediation": "BLOCKED: 实现规格约束（no-invented-api）——代码引用了实现规格 / tech_plan 未声明的接口：\n- /api/core\n- /api/event\n\n允许的接口白名单：\n（tech_plan 未声明任何接口）\n\n请改用白名单内的接口；若确需新增接口，请先在技术规划（tech_plan）中补充契约，或开启「允许新增接口」逃生口（会记录留痕）。"
+    },
+    {
+      "id": "api-1790671846563206322",
+      "kind": "invented_api",
+      "action": "warn",
+      "at": "2026-09-29T08:50:46.563208922+00:00",
+      "toolName": "edit_file",
+      "detail": "越界 API: /api/core, /api/event",
+      "remediation": "BLOCKED: 实现规格约束（no-invented-api）——代码引用了实现规格 / tech_plan 未声明的接口：\n- /api/core\n- /api/event\n\n允许的接口白名单：\n（tech_plan 未声明任何接口）\n\n请改用白名单内的接口；若确需新增接口，请先在技术规划（tech_plan）中补充契约，或开启「允许新增接口」逃生口（会记录留痕）。"
+    },
+    {
+      "id": "visual-1790749648679139044",
+      "kind": "visual_drift",
+      "action": "warn",
+      "at": "2026-09-30T06:27:28.679141059+00:00",
+      "toolName": "edit_file",
+      "detail": "色板外配色: #a0aab4, #6a7280",
+      "remediation": "BLOCKED: 实现规格约束（visual-drift）——本次写入 使用了设计稿实测色板之外的颜色：\n- #a0aab4\n- #6a7280\n\n实测色板（设计稿真实配色，即用户认可的效果）：\n#ffffff, #d4a853, #4fd1c5, #000000, #4ecb8f, #e05c5c, #1a1f27, #222831, #151920, #5b9dff, #8ee6b6, #f09393, #080a0d, #0c0e12, #0f1216, #12161c, #161a20, #181c22, #191d24, #1c2129, #1e2229, #1e232b, #22262d, #231a07, #262b33, #2b323c, #2c3138, #31373f, #3a4048\n\n请改用色板内的颜色（中性色不受限）；若确需新增品牌色，请先在「设计」步更新设计稿并重新交付，色板随之更新后再实现。"
+    },
+    {
+      "id": "visual-1790749651663041429",
+      "kind": "visual_drift",
+      "action": "warn",
+      "at": "2026-09-30T06:27:31.663042375+00:00",
+      "toolName": "edit_file",
+      "detail": "色板外配色: #a0aab4",
+      "remediation": "BLOCKED: 实现规格约束（visual-drift）——本次写入 使用了设计稿实测色板之外的颜色：\n- #a0aab4\n\n实测色板（设计稿真实配色，即用户认可的效果）：\n#ffffff, #d4a853, #4fd1c5, #000000, #4ecb8f, #e05c5c, #1a1f27, #222831, #151920, #5b9dff, #8ee6b6, #f09393, #080a0d, #0c0e12, #0f1216, #12161c, #161a20, #181c22, #191d24, #1c2129, #1e2229, #1e232b, #22262d, #231a07, #262b33, #2b323c, #2c3138, #31373f, #3a4048\n\n请改用色板内的颜色（中性色不受限）；若确需新增品牌色，请先在「设计」步更新设计稿并重新交付，色板随之更新后再实现。"
+    },
+    {
+      "id": "visual-1790749657358729496",
+      "kind": "visual_drift",
+      "action": "warn",
+      "at": "2026-09-30T06:27:37.358732625+00:00",
+      "toolName": "edit_file",
+      "detail": "色板外配色: #6a7280",
+      "remediation": "BLOCKED: 实现规格约束（visual-drift）——本次写入 使用了设计稿实测色板之外的颜色：\n- #6a7280\n\n实测色板（设计稿真实配色，即用户认可的效果）：\n#ffffff, #d4a853, #4fd1c5, #000000, #4ecb8f, #e05c5c, #1a1f27, #222831, #151920, #5b9dff, #8ee6b6, #f09393, #080a0d, #0c0e12, #0f1216, #12161c, #161a20, #181c22, #191d24, #1c2129, #1e2229, #1e232b, #22262d, #231a07, #262b33, #2b323c, #2c3138, #31373f, #3a4048\n\n请改用色板内的颜色（中性色不受限）；若确需新增品牌色，请先在「设计」步更新设计稿并重新交付，色板随之更新后再实现。"
+    },
+    {
+      "id": "api-1790749967853882350",
+      "kind": "invented_api",
+      "action": "warn",
+      "at": "2026-09-30T06:32:47.853883961+00:00",
+      "pageId": "page-6a673190",
+      "toolName": "edit_file",
+      "detail": "越界 API: /api/window",
+      "remediation": "BLOCKED: 实现规格约束（no-invented-api）——代码引用了实现规格 / tech_plan 未声明的接口：\n- /api/window\n\n允许的接口白名单：\n（tech_plan 未声明任何接口）\n\n请改用白名单内的接口；若确需新增接口，请先在技术规划（tech_plan）中补充契约，或开启「允许新增接口」逃生口（会记录留痕）。"
+    }
+  ],
+  "overrides": []
+}

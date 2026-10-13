@@ -1,0 +1,15 @@
+{
+  "total": 1,
+  "completed": 0,
+  "inProgress": 1,
+  "pending": 0,
+  "verified": 0,
+  "progressPct": 0.0,
+  "perPage": [
+    {
+      "pageId": "page-6a673190",
+      "status": "in_progress",
+      "implementedAt": "2026-09-30T06:24:19.423345343+00:00"
+    }
+  ]
+}

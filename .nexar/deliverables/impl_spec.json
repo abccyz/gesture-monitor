@@ -1,0 +1,1402 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-09-29T05:09:15.357423442+00:00",
+  "generatedBy": "hybrid",
+  "global": {
+    "breakpoints": [
+      {
+        "name": "desktop",
+        "minWidth": 1024
+      }
+    ],
+    "tokensRef": "design-tokens.css",
+    "sharedComponents": [],
+    "tokens": {
+      "colors": {
+        "background": "#4fd1c5",
+        "primary": "#d4a853",
+        "secondary": "#4fd1c5",
+        "surface": "#ffffff",
+        "text": "#d4a853",
+        "text_secondary": "#000000"
+      },
+      "borderRadius": {
+        "lg": "8px",
+        "md": "6px",
+        "sm": "var(--r2)",
+        "xl": "999px"
+      },
+      "spacing": {
+        "lg": "6px",
+        "md": "5px",
+        "sm": "2px",
+        "xl": "9px",
+        "xs": "0px"
+      },
+      "fontSizes": {
+        "body": "12px",
+        "h1": "18px"
+      },
+      "fontFamily": "Inter",
+      "palette": [
+        "#ffffff",
+        "#d4a853",
+        "#4fd1c5",
+        "#000000",
+        "#4ecb8f",
+        "#e05c5c",
+        "#1a1f27",
+        "#222831",
+        "#151920",
+        "#5b9dff",
+        "#8ee6b6",
+        "#f09393",
+        "#080a0d",
+        "#0c0e12",
+        "#0f1216",
+        "#12161c",
+        "#161a20",
+        "#181c22",
+        "#191d24",
+        "#1c2129",
+        "#1e2229",
+        "#1e232b",
+        "#22262d",
+        "#231a07",
+        "#262b33",
+        "#2b323c",
+        "#2c3138",
+        "#31373f",
+        "#3a4048"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "pageId": "page-6a673190",
+      "route": "/gesture-monitor",
+      "sourceRef": "pages/page-6a673190.html",
+      "sourceHash": "49e34ae1dbcd066c5fb2cb29f5969900b1bbb10c5e632abed89f32bff7c369c4",
+      "componentTree": [
+        {
+          "id": "app-shell",
+          "componentRef": "comp-app-shell",
+          "name": "GestureMonitorApp",
+          "kind": "layout",
+          "role": "Full-viewport application shell that stacks the titlebar over the content region",
+          "reusable": false,
+          "visual": {
+            "selector": ".app",
+            "styles": {
+              "display": "flex",
+              "flex-direction": "column",
+              "height": "100vh",
+              "overflow": "hidden"
+            }
+          },
+          "props": [
+            {
+              "name": "children",
+              "type": "node",
+              "required": true,
+              "description": "Titlebar plus main/sidebar content region"
+            },
+            {
+              "name": "sidebarOpen",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether the right-hand device/mapping rail is rendered"
+            }
+          ],
+          "interactions": [],
+          "states": [
+            {
+              "name": "default",
+              "description": "Shell occupies the full viewport height with no page scrolling",
+              "visualDelta": "display:flex; flex-direction:column; height:100vh; overflow:hidden; background:#4fd1c5"
+            },
+            {
+              "name": "loading",
+              "description": "Initial hydration before the first gesture data arrives",
+              "visualDelta": "Content cards render their own skeleton placeholders; shell chrome unchanged"
+            }
+          ],
+          "dataBinding": {
+            "entity": "Device",
+            "fields": [
+              "name",
+              "connectionState"
+            ],
+            "direction": "read"
+          },
+          "children": [
+            {
+              "id": "app-shell > title-bar",
+              "componentRef": "comp-title-bar",
+              "name": "MonitorTitlebar",
+              "kind": "navigation",
+              "role": "Top app bar with page title, active device indicator and capture toggles",
+              "reusable": false,
+              "visual": {
+                "selector": ".titlebar",
+                "styles": {
+                  "align-items": "center",
+                  "background": "linear-gradient(180deg,#1a1f27 0%,#151920 100%)",
+                  "border-bottom": "1px solid var(--border)",
+                  "box-shadow": "0 1px 0 rgba(255,255,255,.02), var(--sh-1)",
+                  "display": "flex",
+                  "flex": "none",
+                  "gap": "var(--s4)",
+                  "height": "56px",
+                  "padding": "0 var(--s4)",
+                  "position": "relative"
+                },
+                "text": "Gesture Monitorlibinput · Tauri 2 · v0.1.0映射 11/13 启用会话 42:18监听中 · seat0停止监听"
+              },
+              "props": [
+                {
+                  "name": "title",
+                  "type": "string",
+                  "required": true,
+                  "default": "Gesture Monitor",
+                  "description": "Page heading rendered at h1 size (18px)"
+                },
+                {
+                  "name": "deviceName",
+                  "type": "string",
+                  "required": false,
+                  "description": "Name of the device currently being monitored"
+                },
+                {
+                  "name": "connectionState",
+                  "type": "enum",
+                  "required": true,
+                  "default": "connected",
+                  "description": "connected | disconnected | connecting — drives the status dot colour"
+                },
+                {
+                  "name": "isCapturing",
+                  "type": "boolean",
+                  "required": true,
+                  "default": "false",
+                  "description": "Whether gesture capture is live"
+                },
+                {
+                  "name": "onToggleCapture",
+                  "type": "function",
+                  "required": false,
+                  "description": "Starts/stops the live gesture capture"
+                }
+              ],
+              "interactions": [],
+              "states": [
+                {
+                  "name": "default",
+                  "description": "56px bar with dark gradient, gold title text and teal status accent",
+                  "visualDelta": "height:56px; padding:0 var(--s4); gap:var(--s4); background:linear-gradient(180deg,#1a1f27 0%,#151920 100%); border-bottom:1px solid var(--border); box-shadow:0 1px 0 rgba(255,255,255,.02), var(--sh-1)"
+                },
+                {
+                  "name": "hover",
+                  "description": "Pointer over a titlebar control",
+                  "visualDelta": "Control surface lightens (#222831 → #2b323c), text stays #ffffff"
+                },
+                {
+                  "name": "disabled",
+                  "description": "No device paired, capture controls unavailable",
+                  "visualDelta": "Action buttons at reduced opacity; status dot greyed to #3a4048"
+                },
+                {
+                  "name": "error",
+                  "description": "Device dropped mid-session",
+                  "visualDelta": "Status dot and label switch to #e05c5c"
+                }
+              ],
+              "dataBinding": {
+                "entity": "Device",
+                "fields": [
+                  "name",
+                  "connectionState",
+                  "isCapturing",
+                  "lastSeenAt"
+                ],
+                "direction": "readwrite"
+              },
+              "children": [],
+              "source": "ai"
+            },
+            {
+              "id": "app-shell > main-panel",
+              "componentRef": "comp-main-panel",
+              "name": "MonitorMainColumn",
+              "kind": "layout",
+              "role": "Primary content column holding the view tabs and the three stacked gesture cards",
+              "reusable": false,
+              "visual": {
+                "selector": ".main",
+                "styles": {
+                  "display": "flex",
+                  "flex-direction": "column",
+                  "gap": "var(--s4)",
+                  "min-height": "0",
+                  "min-width": "0"
+                }
+              },
+              "props": [
+                {
+                  "name": "children",
+                  "type": "node",
+                  "required": true,
+                  "description": "Tabs plus the event/stats/timeline cards"
+                }
+              ],
+              "interactions": [],
+              "states": [
+                {
+                  "name": "default",
+                  "description": "Vertical flex column with token gap between tabs and cards",
+                  "visualDelta": "display:flex; flex-direction:column; gap:var(--s4); min-height:0; min-width:0"
+                },
+                {
+                  "name": "empty",
+                  "description": "No gesture data, only the tabs row remains interactive",
+                  "visualDelta": "Cards collapse to their empty placeholders"
+                }
+              ],
+              "dataBinding": {
+                "entity": "GestureEvent",
+                "fields": [
+                  "id",
+                  "type",
+                  "timestamp"
+                ],
+                "direction": "read"
+              },
+              "children": [
+                {
+                  "id": "app-shell > main-panel > view-tabs",
+                  "componentRef": "comp-view-tabs",
+                  "name": "GestureViewTabs",
+                  "kind": "navigation",
+                  "role": "Segmented switcher that filters the monitor by gesture type or view",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".tabs",
+                    "styles": {
+                      "align-items": "center",
+                      "background": "var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "var(--sh-1)",
+                      "display": "flex",
+                      "flex": "none",
+                      "gap": "var(--s1)",
+                      "padding": "var(--s1)"
+                    },
+                    "text": "触控板可视化事件日志 12手势映射 13采样 120 Hz · 延迟 8 ms"
+                  },
+                  "props": [
+                    {
+                      "name": "items",
+                      "type": "node",
+                      "required": true,
+                      "description": "Tab definitions (e.g. All, Scroll, Swipe, Pinch, Rotate)"
+                    },
+                    {
+                      "name": "activeId",
+                      "type": "string",
+                      "required": true,
+                      "description": "Currently selected tab id"
+                    },
+                    {
+                      "name": "onChange",
+                      "type": "function",
+                      "required": true,
+                      "description": "Emits the newly selected tab id"
+                    }
+                  ],
+                  "interactions": [],
+                  "states": [
+                    {
+                      "name": "default",
+                      "description": "Pill container on the panel surface with gold text for the active tab",
+                      "visualDelta": "display:flex; gap:var(--s1); padding:var(--s1); background:var(--panel); border:1px solid var(--border); border-radius:var(--r3); box-shadow:var(--sh-1); flex:none"
+                    },
+                    {
+                      "name": "hover",
+                      "description": "Pointer over an inactive tab",
+                      "visualDelta": "Tab background lightens to #22262d, text to #ffffff"
+                    },
+                    {
+                      "name": "focus",
+                      "description": "Keyboard focus on a tab",
+                      "visualDelta": "2px #5b9dff focus ring inset with 1px offset"
+                    },
+                    {
+                      "name": "disabled",
+                      "description": "Tab not available for the current device",
+                      "visualDelta": "Text at 40% opacity, pointer events off"
+                    }
+                  ],
+                  "dataBinding": {
+                    "entity": "GestureEvent",
+                    "fields": [
+                      "type"
+                    ],
+                    "direction": "read"
+                  },
+                  "children": [],
+                  "source": "ai"
+                },
+                {
+                  "id": "app-shell > main-panel > touchpad-visualization",
+                  "componentRef": "comp-touchpad-visualization",
+                  "name": "GestureEventStreamCard",
+                  "kind": "display",
+                  "role": "Live list of the most recent trackpad gesture events",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".card",
+                    "styles": {
+                      "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+                      "display": "flex",
+                      "flex-direction": "column",
+                      "min-height": "0",
+                      "min-width": "0",
+                      "overflow": "hidden"
+                    },
+                    "text": "触控板可视化实时 · 14:32:07.4120,0x=+y=+absMission Control 已触发3 指滑动 → Mission Control手指位置滑动轨迹设备 event12 · SYNA8004 Touchpad相位 en"
+                  },
+                  "props": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "required": true,
+                      "default": "Live Events",
+                      "description": "Card header label"
+                    },
+                    {
+                      "name": "events",
+                      "type": "node",
+                      "required": true,
+                      "description": "Ordered gesture events, newest first"
+                    },
+                    {
+                      "name": "maxRows",
+                      "type": "number",
+                      "required": false,
+                      "default": "50",
+                      "description": "Rows kept in the visible window"
+                    },
+                    {
+                      "name": "isStreaming",
+                      "type": "boolean",
+                      "required": false,
+                      "default": "true",
+                      "description": "Shows the live pulse in the header"
+                    }
+                  ],
+                  "interactions": [],
+                  "states": [
+                    {
+                      "name": "default",
+                      "description": "Panel card with a subtle top highlight gradient, scrollable event rows",
+                      "visualDelta": "background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px), var(--panel); border:1px solid var(--border); border-radius:var(--r3); box-shadow:inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1); overflow:hidden; min-height:0"
+                    },
+                    {
+                      "name": "loading",
+                      "description": "First batch of events not yet resolved",
+                      "visualDelta": "4–6 shimmering rows at #222831"
+                    },
+                    {
+                      "name": "empty",
+                      "description": "No gestures have been observed yet",
+                      "visualDelta": "Centered muted message in #fff at 55% opacity, e.g. “No gestures detected — move on the trackpad”"
+                    },
+                    {
+                      "name": "error",
+                      "description": "Event feed failed to load",
+                      "visualDelta": "Message and retry affordance in #e05c5c"
+                    }
+                  ],
+                  "dataBinding": {
+                    "entity": "GestureEvent",
+                    "fields": [
+                      "id",
+                      "type",
+                      "phase",
+                      "deltaX",
+                      "deltaY",
+                      "magnitude",
+                      "timestamp"
+                    ],
+                    "direction": "read"
+                  },
+                  "children": [],
+                  "source": "ai"
+                },
+                {
+                  "id": "app-shell > main-panel > live-telemetry",
+                  "componentRef": "comp-live-telemetry",
+                  "name": "GestureStatsCard",
+                  "kind": "display",
+                  "role": "Aggregated per-gesture counters and recognition quality for the session",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".card",
+                    "styles": {
+                      "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+                      "display": "flex",
+                      "flex-direction": "column",
+                      "min-height": "0",
+                      "min-width": "0",
+                      "overflow": "hidden"
+                    },
+                    "text": "实时遥测t=14:32:07.4123 指滑动 · 上swipe · fingers=3 · direction=upendΔX 水平位移+12.4pxΔY 垂直位移−128.6px缩放 scale1.00×旋转角度0.0°NSWE识别方向"
+                  },
+                  "props": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "required": true,
+                      "default": "Gesture Stats",
+                      "description": "Card header label"
+                    },
+                    {
+                      "name": "stats",
+                      "type": "node",
+                      "required": true,
+                      "description": "Per-gesture-type aggregates"
+                    },
+                    {
+                      "name": "period",
+                      "type": "enum",
+                      "required": false,
+                      "default": "session",
+                      "description": "session | hour | day aggregation window"
+                    }
+                  ],
+                  "interactions": [],
+                  "states": [
+                    {
+                      "name": "default",
+                      "description": "Panel card with metric rows using gold accent for values",
+                      "visualDelta": "Same panel treatment as the other cards; numbers at 18px #d4a853, labels at 12px"
+                    },
+                    {
+                      "name": "loading",
+                      "description": "Aggregates being computed",
+                      "visualDelta": "Value slots replaced by shimmer blocks"
+                    },
+                    {
+                      "name": "empty",
+                      "description": "No statistics recorded for the selected period",
+                      "visualDelta": "Rows replaced by a muted zero-state caption"
+                    },
+                    {
+                      "name": "error",
+                      "description": "Aggregation unavailable",
+                      "visualDelta": "Card body shows #e05c5c copy"
+                    }
+                  ],
+                  "dataBinding": {
+                    "entity": "GestureStat",
+                    "fields": [
+                      "gestureType",
+                      "count",
+                      "avgConfidence",
+                      "lastTriggeredAt"
+                    ],
+                    "direction": "read"
+                  },
+                  "children": [],
+                  "source": "ai"
+                },
+                {
+                  "id": "app-shell > main-panel > gesture-event-stream",
+                  "componentRef": "comp-gesture-event-stream",
+                  "name": "GestureTimelineCard",
+                  "kind": "display",
+                  "role": "Fixed-height timeline strip plotting gesture occurrences over the session",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".card",
+                    "styles": {
+                      "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+                      "display": "flex",
+                      "flex": "none",
+                      "flex-direction": "column",
+                      "height": "236px",
+                      "min-height": "0",
+                      "min-width": "0",
+                      "overflow": "hidden"
+                    },
+                    "text": "手势事件流全部已触发滑动清空时间手势手指方向触发动作状态14:32:07.412滑动3 指上Mission Control ctrl+alt+Up成功14:31:55.203滑动4 指右切换下一工作区 ctrl+alt+Right成功14:"
+                  },
+                  "props": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "required": true,
+                      "default": "Timeline",
+                      "description": "Card header label"
+                    },
+                    {
+                      "name": "points",
+                      "type": "node",
+                      "required": true,
+                      "description": "Time-ordered samples used to draw the strip"
+                    },
+                    {
+                      "name": "height",
+                      "type": "number",
+                      "required": false,
+                      "default": "236",
+                      "description": "Fixed card height in px"
+                    }
+                  ],
+                  "interactions": [],
+                  "states": [
+                    {
+                      "name": "default",
+                      "description": "Pinned 236px panel with a teal trace on the dark surface",
+                      "visualDelta": "flex:none; height:236px; overflow:hidden; panel gradient, 1px border, 8px radius"
+                    },
+                    {
+                      "name": "loading",
+                      "description": "Trace data pending",
+                      "visualDelta": "Empty plot area with a faint baseline in #2b323c"
+                    },
+                    {
+                      "name": "empty",
+                      "description": "No events within the window",
+                      "visualDelta": "Flat baseline plus muted caption"
+                    },
+                    {
+                      "name": "error",
+                      "description": "Timeline rendering failed",
+                      "visualDelta": "Baseline drawn in #e05c5c with an error caption"
+                    }
+                  ],
+                  "dataBinding": {
+                    "entity": "GestureEvent",
+                    "fields": [
+                      "timestamp",
+                      "type",
+                      "magnitude"
+                    ],
+                    "direction": "read"
+                  },
+                  "children": [],
+                  "source": "ai"
+                }
+              ],
+              "source": "ai"
+            },
+            {
+              "id": "app-shell > right-sidebar",
+              "componentRef": "comp-right-sidebar",
+              "name": "MonitorSidebar",
+              "kind": "layout",
+              "role": "Right-hand rail stacking the device status card above the gesture mapping list",
+              "reusable": false,
+              "visual": {
+                "selector": ".sidebar",
+                "styles": {
+                  "display": "flex",
+                  "flex-direction": "column",
+                  "gap": "var(--s4)",
+                  "min-height": "0",
+                  "min-width": "0",
+                  "overflow": "hidden"
+                }
+              },
+              "props": [
+                {
+                  "name": "children",
+                  "type": "node",
+                  "required": true,
+                  "description": "Device status card and mapping list card"
+                }
+              ],
+              "interactions": [],
+              "states": [
+                {
+                  "name": "default",
+                  "description": "Vertical flex rail with token gap, second card fills remaining height",
+                  "visualDelta": "display:flex; flex-direction:column; gap:var(--s4); min-height:0; min-width:0; overflow:hidden"
+                },
+                {
+                  "name": "empty",
+                  "description": "No device selected so only the mapping card renders content",
+                  "visualDelta": "Device card collapses to a compact empty state"
+                }
+              ],
+              "dataBinding": {
+                "entity": "Device",
+                "fields": [
+                  "name",
+                  "connectionState"
+                ],
+                "direction": "read"
+              },
+              "children": [
+                {
+                  "id": "app-shell > right-sidebar > gesture-stats",
+                  "componentRef": "comp-gesture-stats",
+                  "name": "DeviceStatusCard",
+                  "kind": "display",
+                  "role": "Shows the paired trackpad identity, connection and battery state",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".card",
+                    "styles": {
+                      "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+                      "display": "flex",
+                      "flex": "none",
+                      "flex-direction": "column",
+                      "min-height": "0",
+                      "min-width": "0",
+                      "overflow": "hidden"
+                    },
+                    "text": "手势统计本会话 · 42 分钟1,284手势识别总数+12.4% 较上小时触发成功 1,238失败 / 禁用 46按类型分布 共 1,284滑动812捏合263长按209按手指数4722 指5213 指2914 指按方向上 342下 188"
+                  },
+                  "props": [
+                    {
+                      "name": "device",
+                      "type": "node",
+                      "required": false,
+                      "description": "Currently paired device record"
+                    },
+                    {
+                      "name": "showBattery",
+                      "type": "boolean",
+                      "required": false,
+                      "default": "true",
+                      "description": "Renders the battery indicator"
+                    }
+                  ],
+                  "interactions": [],
+                  "states": [
+                    {
+                      "name": "default",
+                      "description": "Compact panel card with device name plus status rows",
+                      "visualDelta": "flex:none; panel gradient, 1px border, 8px radius, inset top highlight"
+                    },
+                    {
+                      "name": "loading",
+                      "description": "Device handshake in progress",
+                      "visualDelta": "Status dot pulses in #d4a853 with “Connecting…” copy"
+                    },
+                    {
+                      "name": "empty",
+                      "description": "No device paired",
+                      "visualDelta": "Muted “No device connected” copy and a connect affordance"
+                    },
+                    {
+                      "name": "error",
+                      "description": "Device reported as disconnected or errored",
+                      "visualDelta": "Status dot and label in #e05c5c"
+                    }
+                  ],
+                  "dataBinding": {
+                    "entity": "Device",
+                    "fields": [
+                      "name",
+                      "connectionState",
+                      "batteryLevel",
+                      "lastSeenAt"
+                    ],
+                    "direction": "readwrite"
+                  },
+                  "children": [],
+                  "source": "ai"
+                },
+                {
+                  "id": "app-shell > right-sidebar > device-list",
+                  "componentRef": "comp-device-list",
+                  "name": "GestureMappingListCard",
+                  "kind": "display",
+                  "role": "Scrollable list of gesture-to-action bindings with enable toggles",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".card",
+                    "styles": {
+                      "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+                      "display": "flex",
+                      "flex": "1 1 auto",
+                      "flex-direction": "column",
+                      "min-height": "0",
+                      "min-width": "0",
+                      "overflow": "hidden"
+                    },
+                    "text": "触控板设备2 个已连接SYNA8004:00 06CB:CE58 Touchpad/dev/input/event12 · seat0监听中ELAN2514:00 04F3:317C Touchpad/dev/input/event7 · "
+                  },
+                  "props": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "required": true,
+                      "default": "Mappings",
+                      "description": "Card header label"
+                    },
+                    {
+                      "name": "mappings",
+                      "type": "node",
+                      "required": true,
+                      "description": "Gesture to action bindings"
+                    },
+                    {
+                      "name": "onToggle",
+                      "type": "function",
+                      "required": false,
+                      "description": "Enables/disables a single mapping"
+                    }
+                  ],
+                  "interactions": [],
+                  "states": [
+                    {
+                      "name": "default",
+                      "description": "Fills the remaining sidebar height and scrolls internally",
+                      "visualDelta": "flex:1 1 auto; min-height:0; overflow:hidden; panel gradient, 1px border, 8px radius"
+                    },
+                    {
+                      "name": "hover",
+                      "description": "Pointer over a mapping row",
+                      "visualDelta": "Row background lifts to #1e2229"
+                    },
+                    {
+                      "name": "focus",
+                      "description": "Keyboard focus inside a row or on its toggle",
+                      "visualDelta": "2px #5b9dff focus ring around the row"
+                    },
+                    {
+                      "name": "disabled",
+                      "description": "A mapping is switched off",
+                      "visualDelta": "Row text at 45% opacity, toggle track in #2b323c with the knob left-aligned"
+                    },
+                    {
+                      "name": "empty",
+                      "description": "No gesture mappings configured",
+                      "visualDelta": "Muted “No mappings yet” caption centred in the card body"
+                    }
+                  ],
+                  "dataBinding": {
+                    "entity": "GestureMapping",
+                    "fields": [
+                      "gesture",
+                      "action",
+                      "enabled",
+                      "shortcut"
+                    ],
+                    "direction": "readwrite"
+                  },
+                  "children": [],
+                  "source": "ai"
+                }
+              ],
+              "source": "ai"
+            }
+          ],
+          "source": "ai"
+        }
+      ],
+      "states": [
+        {
+          "name": "idle",
+          "description": "Monitor opened but capture is stopped; last-known data is shown",
+          "visualDelta": "Teal live indicator in the titlebar is static, event rows do not append"
+        },
+        {
+          "name": "capturing",
+          "description": "Gesture capture is live and events stream into the cards",
+          "visualDelta": "Titlebar status accent pulses in #4fd1c5 and the event list keeps the newest row at the top"
+        },
+        {
+          "name": "empty",
+          "description": "No gestures recorded and no mappings configured yet",
+          "visualDelta": "Event, timeline and mapping cards each show their muted empty captions instead of data rows"
+        },
+        {
+          "name": "loading",
+          "description": "Initial load of device, stats and mappings",
+          "visualDelta": "Cards render shimmer placeholders on the #222831 row surface"
+        },
+        {
+          "name": "error",
+          "description": "Device or data source became unavailable",
+          "visualDelta": "Status copy and affected card bodies switch to #e05c5c while the shell chrome stays intact"
+        },
+        {
+          "name": "no-device",
+          "description": "No trackpad is paired, so monitoring cannot start",
+          "visualDelta": "Device card shows the connect affordance and capture controls are disabled"
+        }
+      ],
+      "acceptance": [
+        {
+          "id": "acc-1",
+          "category": "layout",
+          "description": "App shell fills the viewport without page-level scrolling",
+          "check": "Set the window to 1440x900; assert .app (c1) computed height equals 100vh, overflow is hidden, and body has no scrollbar.",
+          "done": false
+        },
+        {
+          "id": "acc-2",
+          "category": "layout",
+          "description": "Content region is a main column beside a right sidebar rail",
+          "check": "Verify c3 (.main) and c8 (.sidebar) are siblings inside c1, both flex children with gap var(--s4), and that the three main cards (c5, c6, c7) plus the two sidebar cards (c9, c10) are direct children of their respective columns.",
+          "done": false
+        },
+        {
+          "id": "acc-3",
+          "category": "layout",
+          "description": "Timeline card keeps its fixed 236px height",
+          "check": "Assert computed height of c7 is 236px and flex: none, and that it does not grow when c5 and c6 have little content.",
+          "done": false
+        },
+        {
+          "id": "acc-4",
+          "category": "visual",
+          "description": "Titlebar matches the measured bar spec",
+          "check": "Measure c2: height 56px, horizontal padding var(--s4), gap var(--s4), background linear-gradient(180deg,#1a1f27 0%,#151920 100%), bottom border 1px var(--border).",
+          "done": false
+        },
+        {
+          "id": "acc-5",
+          "category": "visual",
+          "description": "All cards use the shared panel treatment",
+          "check": "For c5, c6, c7, c9, c10 assert background gradient rgba(255,255,255,.028) to transparent over var(--panel), 1px var(--border), border-radius var(--r3) (8px), and box-shadow inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1).",
+          "done": false
+        },
+        {
+          "id": "acc-6",
+          "category": "visual",
+          "description": "Only palette colours from the design tokens are used",
+          "check": "Sample every filled surface and text colour in the rendered page and confirm each is one of #ffffff, #d4a853, #4fd1c5, #000000, #4ecb8f, #e05c5c, #5b9dff or the listed dark neutrals; typography is Inter with body 12px and headings 18px.",
+          "done": false
+        },
+        {
+          "id": "acc-7",
+          "category": "interaction",
+          "description": "Tabs switch the displayed gesture data",
+          "check": "Click a non-active tab in c4 and assert the active pill moves, the active tab text is #d4a853, and the event/stats/timeline cards re-query for the selected gesture type.",
+          "done": false
+        },
+        {
+          "id": "acc-8",
+          "category": "interaction",
+          "description": "Capture can be started and stopped from the titlebar",
+          "check": "Click the capture control in c2 and assert isCapturing flips, the live indicator changes between pulsing and static, and event rows stop appending while stopped.",
+          "done": false
+        },
+        {
+          "id": "acc-9",
+          "category": "data",
+          "description": "Event stream reads from the local GestureEvent entity",
+          "check": "Seed five GestureEvent records and assert c5 renders exactly five rows, newest first, each showing type, phase and timestamp, with no network request issued.",
+          "done": false
+        },
+        {
+          "id": "acc-10",
+          "category": "data",
+          "description": "Mapping toggles persist locally",
+          "check": "Toggle a row in c10 and assert the GestureMapping.enabled flag is written to the local store, the row renders in its disabled visual state (45% text opacity), and the change survives a page reload.",
+          "done": false
+        },
+        {
+          "id": "acc-11",
+          "category": "data",
+          "description": "Device card reflects pairing state",
+          "check": "With no Device record, assert c9 shows the empty state; after pairing one, assert name, connectionState and battery render and the titlebar status accent turns #4ecb8f.",
+          "done": false
+        },
+        {
+          "id": "acc-12",
+          "category": "responsive",
+          "description": "Desktop breakpoint layout holds down to 1024px",
+          "check": "At 1024px viewport width assert the main column and sidebar still render side by side with no horizontal overflow and no clipped card content; below 1024px the sidebar stacks under the main column.",
+          "done": false
+        },
+        {
+          "id": "acc-13",
+          "category": "a11y",
+          "description": "Tabs and mapping rows are keyboard operable",
+          "check": "Tab into c4 and c10 from the titlebar, assert focus rings (#5b9dff, 2px) are visible, arrow keys move between tabs with the active tab announced, and each mapping toggle exposes role=switch with aria-checked matching its state.",
+          "done": false
+        },
+        {
+          "id": "acc-14",
+          "category": "a11y",
+          "description": "Status information is not conveyed by colour alone",
+          "check": "Simulate a disconnected device and assert c9 and c2 show an explicit text label alongside the #e05c5c colour, and that the warning region is announced via aria-live.",
+          "done": false
+        }
+      ],
+      "dependencies": {
+        "apis": [],
+        "entities": [
+          "Device",
+          "GestureEvent",
+          "GestureMapping",
+          "GestureStat"
+        ],
+        "components": [
+          "comp-app-shell",
+          "comp-title-bar",
+          "comp-main-panel",
+          "comp-view-tabs",
+          "comp-touchpad-visualization",
+          "comp-live-telemetry",
+          "comp-gesture-event-stream",
+          "comp-right-sidebar",
+          "comp-gesture-stats",
+          "comp-device-list"
+        ]
+      },
+      "visualFacts": {
+        "artboardWidth": 112,
+        "artboardHeight": 112,
+        "artboardSource": "css",
+        "deviceType": "desktop",
+        "pageBackground": "#4fd1c5",
+        "componentStyles": {
+          "app-shell": {
+            "display": "flex",
+            "flex-direction": "column",
+            "height": "100vh",
+            "overflow": "hidden"
+          },
+          "device-list": {
+            "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+            "display": "flex",
+            "flex": "1 1 auto",
+            "flex-direction": "column",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "gesture-event-stream": {
+            "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+            "display": "flex",
+            "flex": "none",
+            "flex-direction": "column",
+            "height": "236px",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "gesture-stats": {
+            "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+            "display": "flex",
+            "flex": "none",
+            "flex-direction": "column",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "live-telemetry": {
+            "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+            "display": "flex",
+            "flex-direction": "column",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "main-panel": {
+            "display": "flex",
+            "flex-direction": "column",
+            "gap": "var(--s4)",
+            "min-height": "0",
+            "min-width": "0"
+          },
+          "right-sidebar": {
+            "display": "flex",
+            "flex-direction": "column",
+            "gap": "var(--s4)",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "title-bar": {
+            "align-items": "center",
+            "background": "linear-gradient(180deg,#1a1f27 0%,#151920 100%)",
+            "border-bottom": "1px solid var(--border)",
+            "box-shadow": "0 1px 0 rgba(255,255,255,.02), var(--sh-1)",
+            "display": "flex",
+            "flex": "none",
+            "gap": "var(--s4)",
+            "height": "56px",
+            "padding": "0 var(--s4)",
+            "position": "relative"
+          },
+          "touchpad-visualization": {
+            "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+            "display": "flex",
+            "flex-direction": "column",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "view-tabs": {
+            "align-items": "center",
+            "background": "var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "var(--sh-1)",
+            "display": "flex",
+            "flex": "none",
+            "gap": "var(--s1)",
+            "padding": "var(--s1)"
+          }
+        },
+        "bgColors": [
+          {
+            "value": "#d4a853",
+            "count": 6
+          },
+          {
+            "value": "#e05c5c",
+            "count": 4
+          },
+          {
+            "value": "#222831",
+            "count": 3
+          },
+          {
+            "value": "#4ecb8f",
+            "count": 3
+          },
+          {
+            "value": "#4fd1c5",
+            "count": 3
+          },
+          {
+            "value": "#ffffff",
+            "count": 3
+          },
+          {
+            "value": "#000000",
+            "count": 2
+          },
+          {
+            "value": "#080a0d",
+            "count": 1
+          },
+          {
+            "value": "#12161c",
+            "count": 1
+          },
+          {
+            "value": "#151920",
+            "count": 1
+          },
+          {
+            "value": "#181c22",
+            "count": 1
+          },
+          {
+            "value": "#1a1f27",
+            "count": 1
+          }
+        ],
+        "surfaceColors": [
+          {
+            "value": "#ffffff",
+            "count": 5
+          },
+          {
+            "value": "#151920",
+            "count": 1
+          }
+        ],
+        "textColors": [
+          {
+            "value": "#d4a853",
+            "count": 4
+          },
+          {
+            "value": "#000000",
+            "count": 2
+          },
+          {
+            "value": "#4fd1c5",
+            "count": 2
+          },
+          {
+            "value": "#8ee6b6",
+            "count": 2
+          },
+          {
+            "value": "#f09393",
+            "count": 2
+          },
+          {
+            "value": "#0c0e12",
+            "count": 1
+          },
+          {
+            "value": "#0f1216",
+            "count": 1
+          },
+          {
+            "value": "#161a20",
+            "count": 1
+          },
+          {
+            "value": "#1a1f27",
+            "count": 1
+          },
+          {
+            "value": "#1c2129",
+            "count": 1
+          },
+          {
+            "value": "#1e232b",
+            "count": 1
+          },
+          {
+            "value": "#231a07",
+            "count": 1
+          }
+        ],
+        "accentColors": [
+          {
+            "value": "#ffffff",
+            "count": 20
+          },
+          {
+            "value": "#d4a853",
+            "count": 14
+          },
+          {
+            "value": "#000000",
+            "count": 7
+          },
+          {
+            "value": "#4fd1c5",
+            "count": 7
+          },
+          {
+            "value": "#4ecb8f",
+            "count": 4
+          },
+          {
+            "value": "#1a1f27",
+            "count": 2
+          },
+          {
+            "value": "#5b9dff",
+            "count": 2
+          },
+          {
+            "value": "#e05c5c",
+            "count": 2
+          },
+          {
+            "value": "#191d24",
+            "count": 1
+          },
+          {
+            "value": "#1e2229",
+            "count": 1
+          },
+          {
+            "value": "#22262d",
+            "count": 1
+          },
+          {
+            "value": "#262b33",
+            "count": 1
+          },
+          {
+            "value": "#2b323c",
+            "count": 1
+          },
+          {
+            "value": "#2c3138",
+            "count": 1
+          },
+          {
+            "value": "#31373f",
+            "count": 1
+          },
+          {
+            "value": "#3a4048",
+            "count": 1
+          }
+        ],
+        "radii": [
+          {
+            "value": "var(--r2)",
+            "count": 7
+          },
+          {
+            "value": "999px",
+            "count": 5
+          },
+          {
+            "value": "6px",
+            "count": 4
+          },
+          {
+            "value": "8px",
+            "count": 4
+          },
+          {
+            "value": "12px",
+            "count": 3
+          },
+          {
+            "value": "10px",
+            "count": 2
+          },
+          {
+            "value": "2px",
+            "count": 2
+          },
+          {
+            "value": "4px",
+            "count": 2
+          }
+        ],
+        "spacings": [
+          {
+            "value": "0px",
+            "count": 17
+          },
+          {
+            "value": "2px",
+            "count": 8
+          },
+          {
+            "value": "6px",
+            "count": 8
+          },
+          {
+            "value": "9px",
+            "count": 7
+          },
+          {
+            "value": "5px",
+            "count": 5
+          },
+          {
+            "value": "7px",
+            "count": 5
+          },
+          {
+            "value": "8px",
+            "count": 5
+          },
+          {
+            "value": "10px",
+            "count": 4
+          },
+          {
+            "value": "3px",
+            "count": 4
+          },
+          {
+            "value": "11px",
+            "count": 3
+          },
+          {
+            "value": "13px",
+            "count": 3
+          },
+          {
+            "value": "1px",
+            "count": 2
+          }
+        ],
+        "fontSizes": [
+          {
+            "value": "12px",
+            "count": 15
+          },
+          {
+            "value": "11px",
+            "count": 14
+          },
+          {
+            "value": "13px",
+            "count": 6
+          },
+          {
+            "value": "10px",
+            "count": 1
+          },
+          {
+            "value": "14px",
+            "count": 1
+          },
+          {
+            "value": "15px",
+            "count": 1
+          },
+          {
+            "value": "17px",
+            "count": 1
+          },
+          {
+            "value": "18px",
+            "count": 1
+          }
+        ],
+        "fontFamilies": [
+          {
+            "value": "Inter",
+            "count": 2
+          },
+          {
+            "value": "SFMono-Regular",
+            "count": 1
+          }
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "pageCount": 1,
+    "componentCount": 10,
+    "acceptanceCount": 14,
+    "bindingCoverage": 1.0,
+    "ruleDerived": 0,
+    "aiDerived": 10
+  },
+  "unresolved": [
+    "page-6a673190: tech_plan.apis 为空，10 处 dataBinding 无法回填接口（请先在技术规划补全 API 契约）"
+  ],
+  "techPlanHash": "2840b4e3d0bb73267dfdbf18e1d5e5f89764045ae9d2902bf9b93be065e4d730"
+}

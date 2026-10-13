@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><!--nexar-preview-viewport-->
+<style data-nexar-preview="fit">html.__nexar-preview-fit{overflow-x:hidden;}html.__nexar-preview-fit body{transform-origin:top left;}</style>
+<script data-nexar-preview="fit">
+(function(){
+  if (window.__nexarPreviewViewport) return;
+  window.__nexarPreviewViewport = 1;
+  var MIN_SCALE = 0.15, MAX_SCALE = 1;
+  function apply(){
+    var body = document.body;
+    if (!body) return;
+    var de = document.documentElement;
+    var vw = de.clientWidth || window.innerWidth || 0;
+    if (!vw) return;
+    de.classList.add('__nexar-preview-fit');
+    body.style.transform = 'none';
+    body.style.marginBottom = '';
+    var cw = Math.max(body.scrollWidth, body.offsetWidth);
+    var ch = Math.max(body.scrollHeight, body.offsetHeight);
+    if (cw <= 0 || ch <= 0) return;
+    var s = Math.min(MAX_SCALE, vw / cw);
+    if (s < MIN_SCALE) s = MIN_SCALE;
+    var tx = (vw - cw * s) / 2;
+    body.style.transform = 'translate(' + tx + 'px, 0) scale(' + s + ')';
+    if (s < 1) body.style.marginBottom = (-(ch * (1 - s))) + 'px';
+  }
+  function boot(){
+    apply();
+    window.addEventListener('resize', apply);
+    window.addEventListener('orientationchange', apply);
+    window.addEventListener('load', apply);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Gesture Monitor — 触控板手势监控</title>
+<style>
+  :root{
+    --bg:#0c0e12;
+    --panel:#161a20;
+    --panel-2:#1c2129;
+    --panel-3:#1a1f27;
+    --sunken:#0f1216;
+    --border:#262b33;
+    --border-soft:#1e232b;
+    --text:#e0e0e0;
+    --text-2:#a8aeb6;
+    --text-3:#7d838b;
+    --gold:#d4a853;
+    --gold-dim:rgba(212,168,83,.14);
+    --cyan:#4fd1c5;
+    --blue:#5b9dff;
+    --violet:#9b8cff;
+    --green:#4ecb8f;
+    --red:#e05c5c;
+    --amber:#e0a94a;
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s6:24px; --s8:32px; --s12:48px;
+    --r1:4px; --r2:8px; --r3:12px;
+    --sh-1:0 1px 2px rgba(0,0,0,.4);
+    --sh-2:0 8px 24px rgba(0,0,0,.35);
+    --glow-gold:0 0 24px rgba(212,168,83,.18);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 78% -8%, rgba(212,168,83,.055), transparent 62%),
+      radial-gradient(900px 500px at 8% 108%, rgba(79,209,197,.05), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:14px;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  .num{font-variant-numeric:tabular-nums}
+  .ic{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .ic.sm{width:13px;height:13px}
+  .mono{font-family:"SFMono-Regular",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace}
+
+  /* ============ APP SHELL ============ */
+  .app{height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+  /* ---- Title bar ---- */
+  .titlebar{
+    flex:none;height:56px;display:flex;align-items:center;gap:var(--s4);
+    padding:0 var(--s4);
+    background:linear-gradient(180deg,#1a1f27 0%,#151920 100%);
+    border-bottom:1px solid var(--border);
+    box-shadow:0 1px 0 rgba(255,255,255,.02), var(--sh-1);
+    position:relative;z-index:5;
+  }
+  .brand{display:flex;align-items:center;gap:var(--s3);min-width:0}
+  .brand-mark{
+    width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+    background:linear-gradient(150deg,rgba(212,168,83,.22),rgba(212,168,83,.05));
+    border:1px solid rgba(212,168,83,.34);
+    color:var(--gold);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+  }
+  .brand-mark .ic{width:18px;height:18px}
+  .brand-text{line-height:1.15;min-width:0}
+  .brand-title{font-size:15px;font-weight:600;letter-spacing:.2px}
+  .brand-sub{font-size:11px;color:var(--text-3);letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .tb-spacer{flex:1 1 auto}
+
+  .chip{
+    display:inline-flex;align-items:center;gap:6px;
+    height:30px;padding:0 11px;border-radius:8px;
+    background:var(--panel-3);border:1px solid var(--border);
+    font-size:12px;color:var(--text-2);white-space:nowrap;
+  }
+  .chip b{color:var(--text);font-weight:600}
+  .chip .ic{color:var(--text-3)}
+  .chip.accent{border-color:rgba(212,168,83,.3);color:var(--gold)}
+  .chip.accent b{color:var(--gold)}
+
+  .status-pill{
+    display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 13px;border-radius:999px;
+    background:rgba(78,203,143,.10);border:1px solid rgba(78,203,143,.32);
+    color:#8ee6b6;font-size:12.5px;font-weight:600;letter-spacing:.2px;
+  }
+  .status-pill.off{background:var(--panel-3);border-color:var(--border);color:var(--text-3)}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(78,203,143,.5);animation:pulse 2.2s infinite}
+  .status-pill.off .dot{background:var(--text-3);animation:none}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(78,203,143,.5)}70%{box-shadow:0 0 0 7px rgba(78,203,143,0)}100%{box-shadow:0 0 0 0 rgba(78,203,143,0)}}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:8px;
+    font-size:12.5px;font-weight:600;cursor:pointer;border:1px solid transparent;
+    transition:background .15s,border-color .15s,color .15s,transform .08s;
+    white-space:nowrap;
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn-stop{background:rgba(224,92,92,.12);border-color:rgba(224,92,92,.36);color:#f09393}
+  .btn-stop:hover{background:rgba(224,92,92,.2)}
+  .btn-ghost{background:var(--panel-3);border-color:var(--border);color:var(--text-2)}
+  .btn-ghost:hover{background:#222831;color:var(--text)}
+  .btn-gold{background:linear-gradient(180deg,#dcb05d,#c69a45);border-color:#e0b666;color:#231a07;box-shadow:0 2px 10px rgba(212,168,83,.28)}
+  .btn-gold:hover{filter:brightness(1.06)}
+  .icon-btn{
+    width:32px;height:32px;border-radius:8px;display:grid;place-items:center;cursor:pointer;
+    background:var(--panel-3);border:1px solid var(--border);color:var(--text-2);transition:.15s;
+  }
+  .icon-btn:hover{color:var(--text);background:#222831}
+  .icon-btn.active{background:var(--gold-dim);border-color:rgba(212,168,83,.4);color:var(--gold)}
+
+  .tb-divider{width:1px;height:24px;background:var(--border);margin:0 2px}
+  .win-ctl{display:flex;gap:2px}
+  .win-ctl button{
+    width:32px;height:28px;border:0;background:transparent;color:var(--text-3);border-radius:6px;cursor:pointer;
+    display:grid;place-items:center;transition:.15s
+  }
+  .win-ctl button:hover{background:#222831;color:var(--text)}
+  .win-ctl button.close:hover{background:rgba(224,92,92,.85);color:#fff}
+
+  /* ---- Body split ---- */
+  .body{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 356px;gap:var(--s4);padding:var(--s4)}
+  .main{min-width:0;min-height:0;display:flex;flex-direction:column;gap:var(--s4)}
+  .sidebar{min-width:0;min-height:0;display:flex;flex-direction:column;gap:var(--s4);overflow:hidden}
+
+  /* ---- Tabs ---- */
+  .tabs{
+    flex:none;display:flex;align-items:center;gap:var(--s1);
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--r3);
+    padding:var(--s1);box-shadow:var(--sh-1);
+  }
+  .tab{
+    display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 var(--s4);
+    border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-2);
+    border:1px solid transparent;transition:.15s;white-space:nowrap;
+  }
+  .tab:hover{color:var(--text);background:#1b2029}
+  .tab.active{
+    color:var(--gold);background:linear-gradient(180deg,rgba(212,168,83,.14),rgba(212,168,83,.05));
+    border-color:rgba(212,168,83,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)
+  }
+  .tab .badge{
+    font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px;
+    background:var(--panel-2);border:1px solid var(--border);color:var(--text-2)
+  }
+  .tab.active .badge{background:rgba(212,168,83,.16);border-color:rgba(212,168,83,.28);color:var(--gold)}
+  .tabs .tb-spacer{flex:1}
+  .tabs .meta{font-size:11.5px;color:var(--text-3);padding-right:var(--s3);white-space:nowrap}
+
+  /* ---- Upper grid ---- */
+  .main-top{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(0,1.62fr) minmax(0,1fr);gap:var(--s4)}
+
+  .card{
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),
+      var(--panel);
+    border:1px solid var(--border);border-radius:var(--r3);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1);
+    display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden;
+  }
+  .card-head{
+    flex:none;display:flex;align-items:center;gap:var(--s2);
+    padding:11px var(--s4);border-bottom:1px solid var(--border-soft);
+    background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+  }
+  .card-head h2{margin:0;font-size:12.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-2)}
+  .card-head .ic{color:var(--text-3)}
+  .card-head .spacer{flex:1}
+  .asof{font-size:11px;color:var(--text-3);white-space:nowrap}
+  .card-body{flex:1 1 auto;min-height:0;overflow:auto;padding:var(--s4)}
+
+  /* ============ TOUCHPAD VISUALIZATION ============ */
+  .viz .card-body{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s4);
+    background:
+      radial-gradient(560px 300px at 50% 30%, rgba(91,157,255,.06), transparent 70%),
+      linear-gradient(180deg,rgba(0,0,0,.18),transparent);
+    overflow:hidden;
+  }
+  .laptop{width:100%;max-width:520px}
+  .hinge{
+    height:9px;margin:0 var(--s8);border-radius:6px 6px 0 0;
+    background:linear-gradient(180deg,#3a4048,#22262d 55%,#2c3138);
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.12), inset 0 -1px 2px rgba(0,0,0,.6);
+  }
+  .deck{
+    position:relative;border-radius:14px;padding:20px 26px 24px;
+    background:linear-gradient(180deg,#262b33 0%,#1e2229 45%,#232830 100%);
+    box-shadow:0 22px 60px rgba(0,0,0,.55), 0 8px 20px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.08);
+    border:1px solid #31373f;overflow:hidden;
+  }
+  .deck::after{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:repeating-linear-gradient(90deg,transparent 0 1px,rgba(255,255,255,.018) 1px 2px);
+  }
+  .touchpad{
+    position:relative;width:72%;margin:0 auto;aspect-ratio:16/10;border-radius:12px;
+    background:
+      radial-gradient(120% 90% at 42% 28%, rgba(120,170,255,.10), transparent 58%),
+      linear-gradient(150deg,#191d24 0%,#12161c 100%);
+    border:1px solid rgba(120,140,170,.20);
+    box-shadow:inset 0 2px 10px rgba(0,0,0,.6), inset 0 -1px 2px rgba(255,255,255,.05), 0 0 0 1px rgba(0,0,0,.4);
+    overflow:hidden;
+  }
+  .touchpad::before{
+    content:"";position:absolute;inset:0;border-radius:12px;
+    background-image:radial-gradient(rgba(160,180,210,.14) 1px,transparent 1px);
+    background-size:20px 20px;opacity:.45;
+  }
+  .tp-glow{
+    position:absolute;inset:-1px;border-radius:12px;pointer-events:none;
+    box-shadow:0 0 34px rgba(79,209,197,.16) inset;animation:breathe 3.4s ease-in-out infinite;
+  }
+  @keyframes breathe{0%,100%{opacity:.5}50%{opacity:1}}
+  .trail{position:absolute;inset:0;width:100%;height:100%}
+  .trail path{stroke:var(--cyan);stroke-width:2;fill:none;stroke-linecap:round;stroke-dasharray:6 7;animation:march 1.1s linear infinite;filter:drop-shadow(0 0 6px rgba(79,209,197,.7))}
+  @keyframes march{to{stroke-dashoffset:-26}}
+  .finger{
+    position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, rgba(255,255,255,.9), rgba(79,209,197,.75) 42%, rgba(79,209,197,.12) 72%, transparent 74%);
+    box-shadow:0 0 22px rgba(79,209,197,.55), 0 0 0 1px rgba(79,209,197,.25);
+    animation:fingerPulse 2.6s ease-in-out infinite;
+  }
+  .finger.f2{animation-delay:.4s}
+  .finger.f3{animation-delay:.8s}
+  @keyframes fingerPulse{0%,100%{transform:scale(.92);opacity:.85}50%{transform:scale(1.04);opacity:1}}
+  .tp-label{
+    position:absolute;left:50%;bottom:12px;transform:translateX(-50%);
+    display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:999px;
+    background:rgba(8,10,13,.82);backdrop-filter:blur(6px);
+    border:1px solid rgba(79,209,197,.32);color:#cbf6f1;font-size:12px;font-weight:600;
+    white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.5)
+  }
+  .tp-action{
+    position:absolute;left:50%;top:12px;transform:translateX(-50%);
+    display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;
+    background:rgba(78,203,143,.16);backdrop-filter:blur(6px);
+    border:1px solid rgba(78,203,143,.4);color:#9febc2;font-size:11.5px;font-weight:600;white-space:nowrap
+  }
+  .tp-tick{position:absolute;font-size:10px;color:rgba(140,160,190,.5);letter-spacing:.5px}
+  .tp-tick.tl{left:9px;top:7px}.tp-tick.tr{right:9px;top:7px}
+  .tp-tick.bl{left:9px;bottom:7px}.tp-tick.br{right:9px;bottom:7px}
+  .front-edge{
+    height:8px;margin:0 var(--s3);border-radius:0 0 10px 10px;
+    background:linear-gradient(180deg,#2c3138,#181c22);box-shadow:0 3px 8px rgba(0,0,0,.45)
+  }
+  .viz-caption{
+    display:flex;flex-wrap:wrap;align-items:center;gap:var(--s4);
+    font-size:11.5px;color:var(--text-3);
+  }
+  .viz-caption .legend{display:inline-flex;align-items:center;gap:6px;color:var(--text-2)}
+  .swatch{width:9px;height:9px;border-radius:3px;flex:none}
+  .swatch.cyan{background:var(--cyan);box-shadow:0 0 8px rgba(79,209,197,.6)}
+  .swatch.gold{background:var(--gold)}
+  .swatch.violet{background:var(--violet)}
+  .swatch.blue{background:var(--blue)}
+
+  /* ============ TELEMETRY ============ */
+  .telemetry .card-body{display:flex;flex-direction:column;gap:var(--s4);overflow:hidden}
+  .now-gesture{
+    display:flex;align-items:center;gap:var(--s3);padding:var(--s3);
+    background:linear-gradient(135deg,rgba(212,168,83,.10),rgba(212,168,83,.02));
+    border:1px solid rgba(212,168,83,.24);border-radius:var(--r2);
+  }
+  .now-arrow{
+    width:44px;height:44px;border-radius:10px;flex:none;display:grid;place-items:center;
+    background:rgba(212,168,83,.14);border:1px solid rgba(212,168,83,.3);color:var(--gold)
+  }
+  .now-arrow .ic{width:22px;height:22px}
+  .now-text{min-width:0}
+  .now-text .t1{font-size:17px;font-weight:700;letter-spacing:.3px}
+  .now-text .t2{font-size:11.5px;color:var(--text-3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .phase-tag{margin-left:auto;flex:none;font-size:11px;font-weight:700;letter-spacing:.4px;padding:3px 9px;border-radius:6px;background:rgba(79,209,197,.14);border:1px solid rgba(79,209,197,.3);color:var(--cyan);text-transform:uppercase}
+
+  .metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3)}
+  .metric{
+    background:var(--sunken);border:1px solid var(--border-soft);border-radius:var(--r2);
+    padding:10px var(--s3);
+  }
+  .metric .k{font-size:11px;color:var(--text-3);letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .metric .v{font-size:20px;font-weight:600;margin-top:3px;letter-spacing:.2px}
+  .metric .v small{font-size:11px;color:var(--text-3);font-weight:500;margin-left:3px}
+  .metric .bar{height:3px;border-radius:2px;background:#232a33;margin-top:9px;overflow:hidden}
+  .metric .bar i{display:block;height:100%;border-radius:2px}
+
+  .compass-row{
+    display:flex;align-items:center;gap:var(--s4);
+    padding:var(--s3);border:1px solid var(--border-soft);border-radius:var(--r2);background:var(--sunken)
+  }
+  .compass{width:112px;height:112px;flex:none}
+  .compass .ring{fill:none;stroke:#2b323c;stroke-width:1}
+  .compass .cross{stroke:#242a33;stroke-width:1}
+  .compass .arrow{fill:var(--gold);filter:drop-shadow(0 0 8px rgba(212,168,83,.55))}
+  .compass text{fill:var(--text-3);font-size:9px;font-family:Inter,sans-serif;text-anchor:middle}
+  .compass-info{min-width:0;display:flex;flex-direction:column;gap:9px}
+  .compass-info .row{display:flex;justify-content:space-between;gap:var(--s3);font-size:12px}
+  .compass-info .row span:first-child{color:var(--text-3)}
+  .compass-info .row span:last-child{color:var(--text);font-weight:600}
+
+  /* ============ EVENTS TABLE ============ */
+  .events{flex:none;height:236px}
+  table{width:100%;border-collapse:collapse;table-layout:fixed}
+  thead th{
+    position:sticky;top:0;z-index:1;text-align:left;font-size:11px;font-weight:600;letter-spacing:.5px;
+    color:var(--text-3);text-transform:uppercase;padding:0 var(--s3) 10px;background:var(--panel);
+    border-bottom:1px solid var(--border-soft);white-space:nowrap
+  }
+  tbody td{padding:9px var(--s3);border-bottom:1px solid var(--border-soft);font-size:12.5px;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  tbody tr{transition:background .12s}
+  tbody tr:hover{background:#1a1f27}
+  tbody td.time{color:var(--text-3);font-size:12px}
+  tbody td.gesture{color:var(--text);font-weight:600}
+  tbody td.action{color:var(--text)}
+  .gcell{display:inline-flex;align-items:center;gap:7px;min-width:0}
+  .gcell .ic{color:var(--text-3)}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid transparent}
+  .pill.ok{background:rgba(78,203,143,.13);border-color:rgba(78,203,143,.32);color:#8ee6b6}
+  .pill.fail{background:rgba(224,92,92,.13);border-color:rgba(224,92,92,.34);color:#f09393}
+  .pill.off{background:rgba(160,170,180,.09);border-color:#2b323c;color:var(--text-3)}
+  .table-foot{
+    flex:none;display:flex;align-items:center;gap:var(--s3);padding:0 var(--s4);height:34px;
+    border-top:1px solid var(--border-soft);font-size:11.5px;color:var(--text-3)
+  }
+  .table-foot .tb-spacer{flex:1}
+  .mini-tabs{display:inline-flex;gap:2px;background:var(--sunken);border:1px solid var(--border-soft);border-radius:7px;padding:2px}
+  .mini-tabs button{border:0;background:transparent;color:var(--text-3);font-size:11px;font-weight:600;padding:4px 10px;border-radius:5px;cursor:pointer;transition:.15s}
+  .mini-tabs button.on{background:var(--panel-2);color:var(--text)}
+  .mini-tabs button:hover{color:var(--text)}
+
+  /* ============ SIDEBAR ============ */
+  .stats-card{flex:none}
+  .kpi{
+    display:flex;align-items:flex-end;gap:var(--s4);padding:var(--s3) var(--s3);
+    background:linear-gradient(135deg,rgba(212,168,83,.12),rgba(212,168,83,.01));
+    border:1px solid rgba(212,168,83,.26);border-radius:var(--r2);box-shadow:var(--glow-gold);
+    margin-bottom:var(--s4);
+  }
+  .kpi .big{font-size:42px;font-weight:600;line-height:1;color:var(--gold);letter-spacing:-.5px}
+  .kpi .lab{font-size:11px;color:var(--text-3);margin-top:6px;letter-spacing:.3px}
+  .kpi .side{margin-left:auto;text-align:right;display:flex;flex-direction:column;gap:6px}
+  .kpi .side .line{font-size:11.5px;color:var(--text-2)}
+  .kpi .side .line b{color:var(--text);font-weight:600}
+  .delta{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--green)}
+
+  .sec-title{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text-3);letter-spacing:.5px;text-transform:uppercase;margin:0 0 var(--s3)}
+  .sec-title .r{text-transform:none;letter-spacing:0;color:var(--text-2)}
+  .sec + .sec{margin-top:var(--s6)}
+
+  .bars{display:flex;flex-direction:column;gap:11px}
+  .barrow{display:grid;grid-template-columns:52px minmax(0,1fr) 44px;align-items:center;gap:var(--s3);font-size:12px}
+  .barrow .nm{color:var(--text-2);display:flex;align-items:center;gap:6px}
+  .barrow .track{height:8px;background:#1e242c;border-radius:4px;overflow:hidden}
+  .barrow .track i{display:block;height:100%;border-radius:4px}
+  .barrow .vl{text-align:right;color:var(--text);font-weight:600}
+
+  .finger-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2)}
+  .ftile{background:var(--sunken);border:1px solid var(--border-soft);border-radius:var(--r2);padding:9px 8px;text-align:center}
+  .ftile .v{font-size:18px;font-weight:600;color:var(--text)}
+  .ftile .k{font-size:10.5px;color:var(--text-3);margin-top:2px}
+
+  .dir-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .dchip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:4px 9px;border-radius:7px;background:var(--sunken);border:1px solid var(--border-soft);color:var(--text-2)}
+  .dchip b{color:var(--text);font-weight:600}
+  .dchip .ic{color:var(--text-3)}
+
+  .devices-card{flex:1 1 auto;min-height:0}
+  .dev{display:flex;align-items:center;gap:var(--s3);padding:10px var(--s3);border:1px solid var(--border-soft);border-radius:var(--r2);background:var(--sunken)}
+  .dev + .dev{margin-top:var(--s2)}
+  .dev-ic{width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;background:rgba(91,157,255,.12);border:1px solid rgba(91,157,255,.26);color:var(--blue)}
+  .dev-ic .ic{width:17px;height:17px}
+  .dev-txt{min-width:0;flex:1}
+  .dev-txt .n{font-size:12.5px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dev-txt .s{font-size:11px;color:var(--text-3);margin-top:2px}
+  .dev-state{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--green);flex:none}
+  .dev-state .dot{width:6px;height:6px;animation:none;background:var(--green)}
+
+  .tip{margin-top:var(--s3);padding:var(--s3);border-radius:var(--r2);background:rgba(224,169,74,.07);border:1px solid rgba(224,169,74,.22)}
+  .tip .t{display:flex;gap:7px;font-size:11.5px;color:var(--text-2);line-height:1.5}
+  .tip .t .ic{color:var(--amber);margin-top:1px}
+  .tip code{display:block;margin-top:7px;font-size:11.5px;color:var(--cyan);background:rgba(0,0,0,.35);border:1px solid var(--border-soft);border-radius:6px;padding:5px 8px}
+
+  ::-webkit-scrollbar{width:9px;height:9px}
+  ::-webkit-scrollbar-thumb{background:#2b323c;border-radius:6px;border:2px solid var(--panel)}
+  ::-webkit-scrollbar-thumb:hover{background:#3a424d}
+  ::-webkit-scrollbar-track{background:transparent}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+    <symbol id="i-bars" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-pinch" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 12c2.5-6 5-6 7.5 0S15 18 17.5 12S21 6 21 6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-min" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-max" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></symbol>
+  </defs>
+</svg>
+
+<div class="app" data-component="app-shell" data-type="container">
+
+  <!-- ================= TITLE BAR ================= -->
+  <header class="titlebar" data-component="title-bar" data-type="header">
+    <div class="brand">
+      <div class="brand-mark"><svg class="ic"><use href="#i-hand"/></svg></div>
+      <div class="brand-text">
+        <div class="brand-title">Gesture Monitor</div>
+        <div class="brand-sub">libinput · Tauri 2 · v0.1.0</div>
+      </div>
+    </div>
+
+    <div class="tb-spacer"></div>
+
+    <span class="chip accent" data-type="card"><svg class="ic sm"><use href="#i-zap"/></svg>映射 <b>11</b>/13 启用</span>
+    <span class="chip"><svg class="ic sm"><use href="#i-clock"/></svg>会话 <b class="num">42:18</b></span>
+
+    <div class="status-pill" data-type="card"><span class="dot"></span>监听中 · seat0</div>
+
+    <button class="btn btn-stop" data-type="button"><svg class="ic sm"><use href="#i-stop"/></svg>停止监听</button>
+    <button class="icon-btn active" data-type="button" title="手势映射配置"><svg class="ic"><use href="#i-gear"/></svg></button>
+
+    <div class="tb-divider"></div>
+    <div class="win-ctl" data-type="device-frame">
+      <button title="最小化"><svg class="ic sm"><use href="#i-min"/></svg></button>
+      <button title="最大化"><svg class="ic sm"><use href="#i-max"/></svg></button>
+      <button class="close" title="关闭"><svg class="ic sm"><use href="#i-x"/></svg></button>
+    </div>
+  </header>
+
+  <!-- ================= BODY ================= -->
+  <div class="body">
+
+    <!-- ---------- MAIN ---------- -->
+    <main class="main" data-component="main-panel" data-type="container">
+
+      <!-- Tabs -->
+      <nav class="tabs" data-component="view-tabs" data-type="navigation">
+        <button class="tab active"><svg class="ic sm"><use href="#i-hand"/></svg>触控板可视化</button>
+        <button class="tab"><svg class="ic sm"><use href="#i-list"/></svg>事件日志 <span class="badge num">12</span></button>
+        <button class="tab"><svg class="ic sm"><use href="#i-gear"/></svg>手势映射 <span class="badge num">13</span></button>
+        <span class="tb-spacer"></span>
+        <span class="meta num">采样 120 Hz · 延迟 8 ms</span>
+      </nav>
+
+      <div class="main-top">
+
+        <!-- Touchpad visualization -->
+        <section class="card viz" data-component="touchpad-visualization" data-type="media">
+          <div class="card-head">
+            <svg class="ic sm"><use href="#i-hand"/></svg>
+            <h2>触控板可视化</h2>
+            <span class="spacer"></span>
+            <span class="asof num">实时 · 14:32:07.412</span>
+          </div>
+          <div class="card-body">
+            <div class="laptop">
+              <div class="hinge"></div>
+              <div class="deck">
+                <div class="touchpad">
+                  <div class="tp-glow"></div>
+                  <svg class="trail" viewBox="0 0 100 62" preserveAspectRatio="none">
+                    <path d="M50 54 C 48 42, 52 30, 50 10"/>
+                    <path d="M44 16 L50 8 L56 16" stroke-dasharray="none" style="animation:none"/>
+                  </svg>
+                  <span class="tp-tick tl mono">0,0</span>
+                  <span class="tp-tick tr mono">x=+</span>
+                  <span class="tp-tick bl mono">y=+</span>
+                  <span class="tp-tick br mono">abs</span>
+                  <div class="finger f1" style="left:40%;top:56%"></div>
+                  <div class="finger f2" style="left:50%;top:50%"></div>
+                  <div class="finger f3" style="left:60%;top:56%"></div>
+                  <div class="tp-action"><svg class="ic sm"><use href="#i-zap"/></svg>Mission Control 已触发</div>
+                  <div class="tp-label"><svg class="ic sm" style="color:#4fd1c5"><use href="#i-up"/></svg>3 指滑动 → Mission Control</div>
+                </div>
+              </div>
+              <div class="front-edge"></div>
+            </div>
+
+            <div class="viz-caption">
+              <span class="legend"><i class="swatch cyan"></i>手指位置</span>
+              <span class="legend"><i class="swatch gold"></i>滑动轨迹</span>
+              <span class="legend">设备 event12 · SYNA8004 Touchpad</span>
+              <span class="legend">相位 end · 3 指</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Live telemetry -->
+        <section class="card telemetry" data-component="live-telemetry" data-type="card">
+          <div class="card-head">
+            <svg class="ic sm"><use href="#i-wave"/></svg>
+            <h2>实时遥测</h2>
+            <span class="spacer"></span>
+            <span class="asof num">t=14:32:07.412</span>
+          </div>
+          <div class="card-body">
+            <div class="now-gesture">
+              <div class="now-arrow"><svg class="ic"><use href="#i-up"/></svg></div>
+              <div class="now-text">
+                <div class="t1">3 指滑动 · 上</div>
+                <div class="t2">swipe · fingers=3 · direction=up</div>
+              </div>
+              <span class="phase-tag">end</span>
+            </div>
+
+            <div class="metric-grid">
+              <div class="metric">
+                <div class="k">ΔX 水平位移</div>
+                <div class="v num">+12.4<small>px</small></div>
+                <div class="bar"><i style="width:34%;background:var(--cyan)"></i></div>
+              </div>
+              <div class="metric">
+                <div class="k">ΔY 垂直位移</div>
+                <div class="v num">−128.6<small>px</small></div>
+                <div class="bar"><i style="width:82%;background:var(--gold)"></i></div>
+              </div>
+              <div class="metric">
+                <div class="k">缩放 scale</div>
+                <div class="v num">1.00<small>×</small></div>
+                <div class="bar"><i style="width:50%;background:var(--blue)"></i></div>
+              </div>
+              <div class="metric">
+                <div class="k">旋转角度</div>
+                <div class="v num">0.0<small>°</small></div>
+                <div class="bar"><i style="width:0%;background:var(--violet)"></i></div>
+              </div>
+            </div>
+
+            <div class="compass-row">
+              <svg class="compass" viewBox="0 0 112 112">
+                <circle class="ring" cx="56" cy="56" r="46"/>
+                <circle class="ring" cx="56" cy="56" r="30" stroke-dasharray="2 4"/>
+                <line class="cross" x1="56" y1="8" x2="56" y2="104"/>
+                <line class="cross" x1="8" y1="56" x2="104" y2="56"/>
+                <text x="56" y="18">N</text><text x="56" y="102">S</text>
+                <text x="14" y="60">W</text><text x="98" y="60">E</text>
+                <polygon class="arrow" points="56,20 64,40 56,34 48,40"/>
+                <circle cx="56" cy="56" r="3" fill="#4fd1c5"/>
+              </svg>
+              <div class="compass-info">
+                <div class="row"><span>识别方向</span><span>↑ 上 · up</span></div>
+                <div class="row"><span>累计位移</span><span class="num">145.3 px</span></div>
+                <div class="row"><span>手势类型</span><span>滑动 swipe</span></div>
+                <div class="row"><span>触发动作</span><span style="color:var(--green)">Mission Control</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Event stream -->
+      <section class="card events" data-component="gesture-event-stream" data-type="table">
+        <div class="card-head">
+          <svg class="ic sm"><use href="#i-list"/></svg>
+          <h2>手势事件流</h2>
+          <span class="spacer"></span>
+          <div class="mini-tabs">
+            <button class="on">全部</button>
+            <button>已触发</button>
+            <button>滑动</button>
+          </div>
+          <button class="btn btn-ghost" data-type="button"><svg class="ic sm"><use href="#i-trash"/></svg>清空</button>
+        </div>
+        <div class="card-body" style="padding:var(--s3) var(--s3) 0">
+          <table>
+            <colgroup>
+              <col style="width:126px"><col style="width:104px"><col style="width:66px">
+              <col style="width:104px"><col><col style="width:92px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>时间</th><th>手势</th><th>手指</th><th>方向</th><th>触发动作</th><th>状态</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time mono num">14:32:07.412</td>
+                <td class="gesture"><span class="gcell"><svg class="ic sm"><use href="#i-hand"/></svg>滑动</span></td>
+                <td class="num">3 指</td>
+                <td><span class="gcell"><svg class="ic sm"><use href="#i-up"/></svg>上</span></td>
+                <td class="action">Mission Control <span class="mono" style="color:var(--text-3);font-size:11px">ctrl+alt+Up</span></td>
+                <td><span class="pill ok"><svg class="ic" style="width:11px;height:11px"><use href="#i-check"/></svg>成功</span></td>
+              </tr>
+              <tr>
+                <td class="time mono num">14:31:55.203</td>
+                <td class="gesture"><span class="gcell"><svg class="ic sm"><use href="#i-hand"/></svg>滑动</span></td>
+                <td class="num">4 指</td>
+                <td><span class="gcell"><svg class="ic sm"><use href="#i-right"/></svg>右</span></td>
+                <td class="action">切换下一工作区 <span class="mono" style="color:var(--text-3);font-size:11px">ctrl+alt+Right</span></td>
+                <td><span class="pill ok"><svg class="ic" style="width:11px;height:11px"><use href="#i-check"/></svg>成功</span></td>
+              </tr>
+              <tr>
+                <td class="time mono num">14:31:48.887</td>
+                <td class="gesture"><span class="gcell"><svg class="ic sm"><use href="#i-wave"/></svg>捏合</span></td>
+                <td class="num">2 指</td>
+                <td><span class="gcell"><svg class="ic sm"><use href="#i-pinch"/></svg>张开</span></td>
+                <td class="action">放大 <span class="mono" style="color:var(--text-3);font-size:11px">ctrl+plus</span></td>
+                <td><span class="pill ok"><svg class="ic" style="width:11px;height:11px"><use href="#i-check"/></svg>成功</span></td>
+              </tr>
+              <tr>
+                <td class="time mono num">14:31:40.115</td>
+                <td class="gesture"><span class="gcell"><svg class="ic sm"><use href="#i-hand"/></svg>长按</span></td>
+                <td class="num">3 指</td>
+                <td><span class="gcell" style="color:var(--text-3)">—</span></td>
+                <td class="action">右键菜单 <span class="mono" style="color:var(--text-3);font-size:11px">click 3</span></td>
+                <td><span class="pill ok"><svg class="ic" style="width:11px;height:11px"><use href="#i-check"/></svg>成功</span></td>
+              </tr>
+              <tr>
+                <td class="time mono num">14:31:33.902</td>
+                <td class="gesture"><span class="gcell"><svg class="ic sm"><use href="#i-hand"/></svg>滑动</span></td>
+                <td class="num">3 指</td>
+                <td><span class="gcell"><svg class="ic sm"><use href="#i-left"/></svg>左</span></td>
+                <td class="action">切换上一工作区 <span class="mono" style="color:var(--text-3);font-size:11px">ctrl+alt+Left</span></td>
+                <td><span class="pill ok"><svg class="ic" style="width:11px;height:11px"><use href="#i-check"/></svg>成功</span></td>
+              </tr>
+              <tr>
+                <td class="time mono num">14:31:22.541</td>
+                <td class="gesture"><span class="gcell"><svg class="ic sm"><use href="#i-wave"/></svg>捏合</span></td>
+                <td class="num">2 指</td>
+                <td><span class="gcell"><svg class="ic sm"><use href="#i-right"/></svg>顺转</span></td>
+                <td class="action">下一标签页 <span class="mono" style="color:var(--text-3);font-size:11px">ctrl+Tab</span></td>
+                <td><span class="pill off">已禁用</span></td>
+              </tr>
+              <tr>
+                <td class="time mono num">14:31:15.078</td>
+                <td class="gesture"><span class="gcell"><svg class="ic sm"><use href="#i-hand"/></svg>滑动</span></td>
+                <td class="num">4 指</td>
+                <td><span class="gcell"><svg class="ic sm"><use href="#i-down"/></svg>下</span></td>
+                <td class="action">App Exposé <span class="mono" style="color:var(--text-3);font-size:11px">alt+F3</span></td>
+                <td><span class="pill ok"><svg class="ic" style="width:11px;height:11px"><use href="#i-check"/></svg>成功</span></td>
+              </tr>
+              <tr>
+                <td class="time mono num">14:31:02.664</td>
+                <td class="gesture"><span class="gcell"><svg class="ic sm"><use href="#i-hand"/></svg>长按</span></td>
+                <td class="num">4 指</td>
+                <td><span class="gcell" style="color:var(--text-3)">—</span></td>
+                <td class="action">显示桌面 <span class="mono" style="color:var(--text-3);font-size:11px">super+d</span></td>
+                <td><span class="pill fail">失败</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-foot">
+          <span>显示 8 / 12 条事件</span>
+          <span class="tb-spacer"></span>
+          <span class="num">触发成功率 96.4%</span>
+          <span class="num">最近更新 14:32:07</span>
+        </div>
+      </section>
+    </main>
+
+    <!-- ---------- SIDEBAR ---------- -->
+    <aside class="sidebar" data-component="right-sidebar" data-type="container">
+
+      <!-- Stats -->
+      <section class="card stats-card" data-component="gesture-stats" data-type="chart">
+        <div class="card-head">
+          <svg class="ic sm"><use href="#i-bars"/></svg>
+          <h2>手势统计</h2>
+          <span class="spacer"></span>
+          <span class="asof num">本会话 · 42 分钟</span>
+        </div>
+        <div class="card-body">
+          <div class="kpi">
+            <div>
+              <div class="big num">1,284</div>
+              <div class="lab">手势识别总数</div>
+            </div>
+            <div class="side">
+              <div class="delta"><svg class="ic" style="width:11px;height:11px"><use href="#i-up"/></svg>+12.4% 较上小时</div>
+              <div class="line">触发成功 <b class="num">1,238</b></div>
+              <div class="line">失败 / 禁用 <b class="num">46</b></div>
+            </div>
+          </div>
+
+          <div class="sec">
+            <div class="sec-title">按类型分布 <span class="r num">共 1,284</span></div>
+            <div class="bars">
+              <div class="barrow">
+                <span class="nm"><i class="swatch gold"></i>滑动</span>
+                <span class="track"><i style="width:63%;background:var(--gold)"></i></span>
+                <span class="vl num">812</span>
+              </div>
+              <div class="barrow">
+                <span class="nm"><i class="swatch cyan"></i>捏合</span>
+                <span class="track"><i style="width:21%;background:var(--cyan)"></i></span>
+                <span class="vl num">263</span>
+              </div>
+              <div class="barrow">
+                <span class="nm"><i class="swatch violet"></i>长按</span>
+                <span class="track"><i style="width:16%;background:var(--violet)"></i></span>
+                <span class="vl num">209</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sec">
+            <div class="sec-title">按手指数</div>
+            <div class="finger-tiles">
+              <div class="ftile"><div class="v num">472</div><div class="k">2 指</div></div>
+              <div class="ftile"><div class="v num">521</div><div class="k">3 指</div></div>
+              <div class="ftile"><div class="v num">291</div><div class="k">4 指</div></div>
+            </div>
+          </div>
+
+          <div class="sec">
+            <div class="sec-title">按方向</div>
+            <div class="dir-chips">
+              <span class="dchip"><svg class="ic sm"><use href="#i-up"/></svg>上 <b class="num">342</b></span>
+              <span class="dchip"><svg class="ic sm"><use href="#i-down"/></svg>下 <b class="num">188</b></span>
+              <span class="dchip"><svg class="ic sm"><use href="#i-left"/></svg>左 <b class="num">156</b></span>
+              <span class="dchip"><svg class="ic sm"><use href="#i-right"/></svg>右 <b class="num">126</b></span>
+              <span class="dchip"><svg class="ic sm"><use href="#i-pinch"/></svg>张开 <b class="num">140</b></span>
+              <span class="dchip"><svg class="ic sm"><use href="#i-pinch"/></svg>捏入 <b class="num">123</b></span>
+              <span class="dchip">顺转 <b class="num">42</b></span>
+              <span class="dchip">逆转 <b class="num">21</b></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Devices -->
+      <section class="card devices-card" data-component="device-list" data-type="list">
+        <div class="card-head">
+          <svg class="ic sm"><use href="#i-monitor"/></svg>
+          <h2>触控板设备</h2>
+          <span class="spacer"></span>
+          <span class="asof num">2 个已连接</span>
+        </div>
+        <div class="card-body">
+          <div class="dev">
+            <div class="dev-ic"><svg class="ic"><use href="#i-cpu"/></svg></div>
+            <div class="dev-txt">
+              <div class="n">SYNA8004:00 06CB:CE58 Touchpad</div>
+              <div class="s mono">/dev/input/event12 · seat0</div>
+            </div>
+            <div class="dev-state"><span class="dot"></span>监听中</div>
+          </div>
+          <div class="dev">
+            <div class="dev-ic"><svg class="ic"><use href="#i-cpu"/></svg></div>
+            <div class="dev-txt">
+              <div class="n">ELAN2514:00 04F3:317C Touchpad</div>
+              <div class="s mono">/dev/input/event7 · seat0</div>
+            </div>
+            <div class="dev-state"><span class="dot"></span>已连接</div>
+          </div>
+
+          <div class="tip">
+            <div class="t">
+              <svg class="ic sm"><use href="#i-info"/></svg>
+              <span>需要 <b style="color:var(--text)">input</b> 组权限才能访问触控板设备，重新登录后生效。</span>
+            </div>
+            <code class="mono">sudo usermod -aG input $USER</code>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>
+</body>
+</html>

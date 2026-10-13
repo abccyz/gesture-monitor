@@ -1,0 +1,77 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-09-29T05:09:15.358044194+00:00",
+  "generatedBy": "rule",
+  "source": {
+    "manifestHash": "01794f5c11371f6a145181ca2a56bcb27221ff193c03d7c8c90c2702449edf91",
+    "implSpecHash": "5476e174434cbf83a207a373b796f5f67b84f0b73cc422441dcc9601d290e16e",
+    "enforcementLevel": "warn"
+  },
+  "tasks": [
+    {
+      "content": "落实交付契约：路由 / 入口与共享组件",
+      "activeForm": "正在落实交付契约（路由 / 共享组件）",
+      "status": "pending",
+      "pageId": "",
+      "targetFiles": [
+        "frontend/src/router.tsx"
+      ],
+      "componentIds": [],
+      "acceptanceIds": [],
+      "id": "contract",
+      "group": "contract"
+    },
+    {
+      "content": "实现页面「Gesture Monitor — 触控板手势监控」（pages/page-6a673190.html）",
+      "activeForm": "正在实现页面「Gesture Monitor — 触控板手势监控」",
+      "status": "pending",
+      "pageId": "page-6a673190",
+      "targetFiles": [
+        "frontend/src/pages/GestureMonitor.tsx",
+        "frontend/src/components/AppShell.tsx",
+        "frontend/src/components/TitleBar.tsx",
+        "frontend/src/components/MainPanel.tsx",
+        "frontend/src/components/ViewTabs.tsx",
+        "frontend/src/components/TouchpadVisualization.tsx",
+        "frontend/src/components/LiveTelemetry.tsx",
+        "frontend/src/components/GestureEventStream.tsx",
+        "frontend/src/components/RightSidebar.tsx",
+        "frontend/src/components/GestureStats.tsx",
+        "frontend/src/components/DeviceList.tsx"
+      ],
+      "componentIds": [
+        "comp-app-shell",
+        "comp-title-bar",
+        "comp-main-panel",
+        "comp-view-tabs",
+        "comp-touchpad-visualization",
+        "comp-live-telemetry",
+        "comp-gesture-event-stream",
+        "comp-right-sidebar",
+        "comp-gesture-stats",
+        "comp-device-list"
+      ],
+      "acceptanceIds": [
+        "acc-1",
+        "acc-2",
+        "acc-3",
+        "acc-4",
+        "acc-5",
+        "acc-6",
+        "acc-7",
+        "acc-8",
+        "acc-9",
+        "acc-10",
+        "acc-11",
+        "acc-12",
+        "acc-13",
+        "acc-14"
+      ],
+      "id": "page:page-6a673190",
+      "dependsOn": [
+        "contract"
+      ],
+      "group": "page:page-6a673190"
+    }
+  ]
+}

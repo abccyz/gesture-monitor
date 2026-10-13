@@ -1,0 +1,228 @@
+{
+  "version": "1.0",
+  "projectName": "gesture-monitor",
+  "generatedAt": "2026-09-29T05:07:08.179539915+00:00",
+  "pages": [
+    {
+      "id": "page-6a673190",
+      "name": "Gesture Monitor — 触控板手势监控",
+      "path": "pages/page-6a673190.html",
+      "deviceType": "desktop",
+      "components": [
+        "comp-app-shell",
+        "comp-title-bar",
+        "comp-main-panel",
+        "comp-view-tabs",
+        "comp-touchpad-visualization",
+        "comp-live-telemetry",
+        "comp-gesture-event-stream",
+        "comp-right-sidebar",
+        "comp-gesture-stats",
+        "comp-device-list"
+      ],
+      "linksTo": []
+    }
+  ],
+  "routes": [],
+  "components": [
+    {
+      "id": "comp-view-tabs",
+      "name": "view-tabs",
+      "type": "navigation",
+      "description": "",
+      "usedIn": [
+        "page-6a673190"
+      ]
+    },
+    {
+      "id": "comp-main-panel",
+      "name": "main-panel",
+      "type": "container",
+      "description": "",
+      "usedIn": [
+        "page-6a673190"
+      ]
+    },
+    {
+      "id": "comp-right-sidebar",
+      "name": "right-sidebar",
+      "type": "container",
+      "description": "",
+      "usedIn": [
+        "page-6a673190"
+      ]
+    },
+    {
+      "id": "comp-gesture-stats",
+      "name": "gesture-stats",
+      "type": "chart",
+      "description": "",
+      "usedIn": [
+        "page-6a673190"
+      ]
+    },
+    {
+      "id": "comp-app-shell",
+      "name": "app-shell",
+      "type": "container",
+      "description": "",
+      "usedIn": [
+        "page-6a673190"
+      ]
+    },
+    {
+      "id": "comp-device-list",
+      "name": "device-list",
+      "type": "list",
+      "description": "",
+      "usedIn": [
+        "page-6a673190"
+      ]
+    },
+    {
+      "id": "comp-title-bar",
+      "name": "title-bar",
+      "type": "header",
+      "description": "",
+      "usedIn": [
+        "page-6a673190"
+      ]
+    },
+    {
+      "id": "comp-touchpad-visualization",
+      "name": "touchpad-visualization",
+      "type": "media",
+      "description": "",
+      "usedIn": [
+        "page-6a673190"
+      ]
+    },
+    {
+      "id": "comp-live-telemetry",
+      "name": "live-telemetry",
+      "type": "card",
+      "description": "",
+      "usedIn": [
+        "page-6a673190"
+      ]
+    },
+    {
+      "id": "comp-gesture-event-stream",
+      "name": "gesture-event-stream",
+      "type": "table",
+      "description": "",
+      "usedIn": [
+        "page-6a673190"
+      ]
+    }
+  ],
+  "designTokens": "design-tokens.css",
+  "analysis": {
+    "projectType": "前端 (React)",
+    "framework": "React",
+    "language": "TypeScript",
+    "buildTool": "Vite",
+    "packageManager": "npm",
+    "existingStructure": [
+      "Makefile",
+      "README.md",
+      "README_EN.md",
+      "design-export/",
+      "design-export/page-6a673190.html",
+      "design-export/tokens.css",
+      "index.html",
+      "package-lock.json",
+      "package.json",
+      "postcss.config.js",
+      "src/",
+      "src/App.tsx",
+      "src/components/",
+      "src/components/DeviceList.tsx",
+      "src/components/GestureCard.tsx",
+      "src/components/GestureLog.tsx",
+      "src/components/GestureMappings.tsx",
+      "src/components/GestureStats.tsx",
+      "src/components/TitleBar.tsx",
+      "src/components/TouchpadVisualization.tsx"
+    ],
+    "recommendations": [
+      "检测到标记文件: package.json, Makefile, tsconfig.json, vite.config.ts, package-lock.json"
+    ]
+  },
+  "facts": {
+    "fileTree": [
+      "Makefile",
+      "README.md",
+      "README_EN.md",
+      "design-export/",
+      "design-export/page-6a673190.html",
+      "design-export/tokens.css",
+      "index.html",
+      "package-lock.json",
+      "package.json",
+      "postcss.config.js",
+      "src/",
+      "src/App.tsx",
+      "src/components/",
+      "src/components/DeviceList.tsx",
+      "src/components/GestureCard.tsx",
+      "src/components/GestureLog.tsx",
+      "src/components/GestureMappings.tsx",
+      "src/components/GestureStats.tsx",
+      "src/components/TitleBar.tsx",
+      "src/components/TouchpadVisualization.tsx",
+      "src/main.tsx",
+      "src/styles/",
+      "src/styles/app.css",
+      "src-tauri/",
+      "src-tauri/Cargo.lock",
+      "src-tauri/Cargo.toml",
+      "src-tauri/build.rs",
+      "src-tauri/capabilities/",
+      "src-tauri/capabilities/default.json",
+      "src-tauri/gen/",
+      "src-tauri/gen/schemas/",
+      "src-tauri/icons/",
+      "src-tauri/icons/128x128.png",
+      "src-tauri/icons/128x128@2x.png",
+      "src-tauri/icons/32x32.png",
+      "src-tauri/icons/icon.png",
+      "src-tauri/icons/tray-icon.png",
+      "src-tauri/src/",
+      "src-tauri/src/actions.rs",
+      "src-tauri/src/commands.rs",
+      "src-tauri/src/gesture.rs",
+      "src-tauri/src/main.rs",
+      "src-tauri/tauri.conf.json",
+      "tailwind.config.js",
+      "tsconfig.json",
+      "vite.config.ts"
+    ],
+    "markerFiles": [
+      "package.json",
+      "Makefile",
+      "tsconfig.json",
+      "vite.config.ts",
+      "package-lock.json"
+    ],
+    "dependencies": [
+      "@tauri-apps/api",
+      "lucide-react",
+      "react",
+      "react-dom",
+      "@tauri-apps/cli",
+      "@types/react",
+      "@types/react-dom",
+      "@vitejs/plugin-react",
+      "autoprefixer",
+      "postcss",
+      "tailwindcss",
+      "typescript",
+      "vite"
+    ],
+    "rawContents": {
+      "package.json": "{\n  \"name\": \"gesture-monitor\",\n  \"private\": true,\n  \"version\": \"0.1.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vite build\",\n    \"preview\": \"vite preview\"\n  },\n  \"dependencies\": {\n    \"@tauri-apps/api\": \"^2.0.0\",\n    \"lucide-react\": \"^0.460.0\",\n    \"react\": \"^18.3.1\",\n    \"react-dom\": \"^18.3.1\"\n  },\n  \"devDependencies\": {\n    \"@tauri-apps/cli\": \"^2.11.4\",\n    \"@types/react\": \"^18.3.12\",\n    \"@types/react-dom\": \"^18.3.1\",\n    \"@vitejs/plugin-react\": \"^4.3.4\",\n    \"autoprefixer\": \"^10.4.20\",\n    \"postcss\": \"^8.4.49\",\n    \"tailwindcss\": \"^3.4.15\",\n    \"typescript\": \"^5.6.3\",\n    \"vite\": \"^6.0.0\"\n  }\n}\n",
+      "tsconfig.json": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2021\",\n    \"useDefineForClassFields\": true,\n    \"lib\": [\"ES2021\", \"DOM\", \"DOM.Iterable\"],\n    \"module\": \"ESNext\",\n    \"skipLibCheck\": true,\n    \"moduleResolution\": \"bundler\",\n    \"allowImportingTsExtensions\": true,\n    \"isolatedModules\": true,\n    \"moduleDetection\": \"force\",\n    \"noEmit\": true,\n    \"jsx\": \"react-jsx\",\n    \"strict\": true,\n    \"noUnusedLocals\": false,\n    \"noUnusedParameters\": false,\n    \"noFallthroughCasesInSwitch\": true,\n    \"typeRoots\": [\"./node_modules/@types\"]\n  },\n  \"include\": [\"src\"]\n}\n"
+    }
+  }
+}

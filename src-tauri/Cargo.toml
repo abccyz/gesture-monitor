@@ -1,0 +1,20 @@
+[package]
+name = "gesture-monitor"
+version = "0.1.0"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+input = { version = "0.10", features = ["libinput_1_30"] }
+udev = "0.9"
+tokio = { version = "1", features = ["full"] }
+chrono = "0.4"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

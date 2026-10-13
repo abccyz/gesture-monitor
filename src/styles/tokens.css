@@ -1,0 +1,41 @@
+/* 设计令牌 — 取自设计稿 pages/page-6a673190.html 的 :root，编码以本文件为准 */
+:root {
+  /* 配色 */
+  --bg: #0c0e12;
+  --panel: #161a20;
+  --panel-2: #1c2129;
+  --panel-3: #1a1f27;
+  --sunken: #0f1216;
+  --border: #262b33;
+  --border-soft: #1e232b;
+  --text: #e0e0e0;
+  --text-2: #a8aeb6;
+  --text-3: #7d838b;
+  --gold: #d4a853;
+  --gold-dim: rgba(212, 168, 83, 0.14);
+  --cyan: #4fd1c5;
+  --blue: #5b9dff;
+  --violet: #9b8cff;
+  --green: #4ecb8f;
+  --red: #e05c5c;
+  --amber: #e0a94a;
+
+  /* 间距 */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s6: 24px;
+  --s8: 32px;
+  --s12: 48px;
+
+  /* 圆角 */
+  --r1: 4px;
+  --r2: 8px;
+  --r3: 12px;
+
+  /* 阴影 / 发光 */
+  --sh-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --sh-2: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --glow-gold: 0 0 24px rgba(212, 168, 83, 0.18);
+}

@@ -1,0 +1,796 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-09-29T05:07:08.191040666+00:00",
+  "generatedBy": "rule",
+  "global": {
+    "breakpoints": [
+      {
+        "name": "desktop",
+        "minWidth": 1024
+      }
+    ],
+    "tokensRef": "design-tokens.css",
+    "sharedComponents": [],
+    "tokens": {
+      "colors": {
+        "background": "#4fd1c5",
+        "primary": "#d4a853",
+        "secondary": "#4fd1c5",
+        "surface": "#ffffff",
+        "text": "#d4a853",
+        "text_secondary": "#000000"
+      },
+      "borderRadius": {
+        "lg": "8px",
+        "md": "6px",
+        "sm": "var(--r2)",
+        "xl": "999px"
+      },
+      "spacing": {
+        "lg": "6px",
+        "md": "5px",
+        "sm": "2px",
+        "xl": "9px",
+        "xs": "0px"
+      },
+      "fontSizes": {
+        "body": "12px",
+        "h1": "18px"
+      },
+      "fontFamily": "Inter",
+      "palette": [
+        "#ffffff",
+        "#d4a853",
+        "#4fd1c5",
+        "#000000",
+        "#4ecb8f",
+        "#e05c5c",
+        "#1a1f27",
+        "#222831",
+        "#151920",
+        "#5b9dff",
+        "#8ee6b6",
+        "#f09393",
+        "#080a0d",
+        "#0c0e12",
+        "#0f1216",
+        "#12161c",
+        "#161a20",
+        "#181c22",
+        "#191d24",
+        "#1c2129",
+        "#1e2229",
+        "#1e232b",
+        "#22262d",
+        "#231a07",
+        "#262b33",
+        "#2b323c",
+        "#2c3138",
+        "#31373f",
+        "#3a4048"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "pageId": "page-6a673190",
+      "route": "/gesture-monitor",
+      "sourceRef": "pages/page-6a673190.html",
+      "sourceHash": "49e34ae1dbcd066c5fb2cb29f5969900b1bbb10c5e632abed89f32bff7c369c4",
+      "componentTree": [
+        {
+          "id": "app-shell",
+          "componentRef": "comp-app-shell",
+          "name": "app-shell",
+          "kind": "layout",
+          "reusable": false,
+          "visual": {
+            "selector": ".app",
+            "styles": {
+              "display": "flex",
+              "flex-direction": "column",
+              "height": "100vh",
+              "overflow": "hidden"
+            }
+          },
+          "props": [],
+          "interactions": [],
+          "states": [],
+          "children": [
+            {
+              "id": "app-shell > title-bar",
+              "componentRef": "comp-title-bar",
+              "name": "title-bar",
+              "kind": "navigation",
+              "reusable": false,
+              "visual": {
+                "selector": ".titlebar",
+                "styles": {
+                  "align-items": "center",
+                  "background": "linear-gradient(180deg,#1a1f27 0%,#151920 100%)",
+                  "border-bottom": "1px solid var(--border)",
+                  "box-shadow": "0 1px 0 rgba(255,255,255,.02), var(--sh-1)",
+                  "display": "flex",
+                  "flex": "none",
+                  "gap": "var(--s4)",
+                  "height": "56px",
+                  "padding": "0 var(--s4)",
+                  "position": "relative"
+                },
+                "text": "Gesture Monitorlibinput · Tauri 2 · v0.1.0映射 11/13 启用会话 42:18监听中 · seat0停止监听"
+              },
+              "props": [],
+              "interactions": [],
+              "states": [],
+              "children": [],
+              "source": "dom"
+            },
+            {
+              "id": "app-shell > main-panel",
+              "componentRef": "comp-main-panel",
+              "name": "main-panel",
+              "kind": "layout",
+              "reusable": false,
+              "visual": {
+                "selector": ".main",
+                "styles": {
+                  "display": "flex",
+                  "flex-direction": "column",
+                  "gap": "var(--s4)",
+                  "min-height": "0",
+                  "min-width": "0"
+                }
+              },
+              "props": [],
+              "interactions": [],
+              "states": [],
+              "children": [
+                {
+                  "id": "app-shell > main-panel > view-tabs",
+                  "componentRef": "comp-view-tabs",
+                  "name": "view-tabs",
+                  "kind": "navigation",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".tabs",
+                    "styles": {
+                      "align-items": "center",
+                      "background": "var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "var(--sh-1)",
+                      "display": "flex",
+                      "flex": "none",
+                      "gap": "var(--s1)",
+                      "padding": "var(--s1)"
+                    },
+                    "text": "触控板可视化事件日志 12手势映射 13采样 120 Hz · 延迟 8 ms"
+                  },
+                  "props": [],
+                  "interactions": [],
+                  "states": [],
+                  "children": [],
+                  "source": "dom"
+                },
+                {
+                  "id": "app-shell > main-panel > touchpad-visualization",
+                  "componentRef": "comp-touchpad-visualization",
+                  "name": "touchpad-visualization",
+                  "kind": "display",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".card",
+                    "styles": {
+                      "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+                      "display": "flex",
+                      "flex-direction": "column",
+                      "min-height": "0",
+                      "min-width": "0",
+                      "overflow": "hidden"
+                    },
+                    "text": "触控板可视化实时 · 14:32:07.4120,0x=+y=+absMission Control 已触发3 指滑动 → Mission Control手指位置滑动轨迹设备 event12 · SYNA8004 Touchpad相位 en"
+                  },
+                  "props": [],
+                  "interactions": [],
+                  "states": [],
+                  "children": [],
+                  "source": "dom"
+                },
+                {
+                  "id": "app-shell > main-panel > live-telemetry",
+                  "componentRef": "comp-live-telemetry",
+                  "name": "live-telemetry",
+                  "kind": "display",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".card",
+                    "styles": {
+                      "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+                      "display": "flex",
+                      "flex-direction": "column",
+                      "min-height": "0",
+                      "min-width": "0",
+                      "overflow": "hidden"
+                    },
+                    "text": "实时遥测t=14:32:07.4123 指滑动 · 上swipe · fingers=3 · direction=upendΔX 水平位移+12.4pxΔY 垂直位移−128.6px缩放 scale1.00×旋转角度0.0°NSWE识别方向"
+                  },
+                  "props": [],
+                  "interactions": [],
+                  "states": [],
+                  "children": [],
+                  "source": "dom"
+                },
+                {
+                  "id": "app-shell > main-panel > gesture-event-stream",
+                  "componentRef": "comp-gesture-event-stream",
+                  "name": "gesture-event-stream",
+                  "kind": "display",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".card",
+                    "styles": {
+                      "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+                      "display": "flex",
+                      "flex": "none",
+                      "flex-direction": "column",
+                      "height": "236px",
+                      "min-height": "0",
+                      "min-width": "0",
+                      "overflow": "hidden"
+                    },
+                    "text": "手势事件流全部已触发滑动清空时间手势手指方向触发动作状态14:32:07.412滑动3 指上Mission Control ctrl+alt+Up成功14:31:55.203滑动4 指右切换下一工作区 ctrl+alt+Right成功14:"
+                  },
+                  "props": [],
+                  "interactions": [],
+                  "states": [],
+                  "children": [],
+                  "source": "dom"
+                }
+              ],
+              "source": "dom"
+            },
+            {
+              "id": "app-shell > right-sidebar",
+              "componentRef": "comp-right-sidebar",
+              "name": "right-sidebar",
+              "kind": "layout",
+              "reusable": false,
+              "visual": {
+                "selector": ".sidebar",
+                "styles": {
+                  "display": "flex",
+                  "flex-direction": "column",
+                  "gap": "var(--s4)",
+                  "min-height": "0",
+                  "min-width": "0",
+                  "overflow": "hidden"
+                }
+              },
+              "props": [],
+              "interactions": [],
+              "states": [],
+              "children": [
+                {
+                  "id": "app-shell > right-sidebar > gesture-stats",
+                  "componentRef": "comp-gesture-stats",
+                  "name": "gesture-stats",
+                  "kind": "display",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".card",
+                    "styles": {
+                      "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+                      "display": "flex",
+                      "flex": "none",
+                      "flex-direction": "column",
+                      "min-height": "0",
+                      "min-width": "0",
+                      "overflow": "hidden"
+                    },
+                    "text": "手势统计本会话 · 42 分钟1,284手势识别总数+12.4% 较上小时触发成功 1,238失败 / 禁用 46按类型分布 共 1,284滑动812捏合263长按209按手指数4722 指5213 指2914 指按方向上 342下 188"
+                  },
+                  "props": [],
+                  "interactions": [],
+                  "states": [],
+                  "children": [],
+                  "source": "dom"
+                },
+                {
+                  "id": "app-shell > right-sidebar > device-list",
+                  "componentRef": "comp-device-list",
+                  "name": "device-list",
+                  "kind": "display",
+                  "reusable": false,
+                  "visual": {
+                    "selector": ".card",
+                    "styles": {
+                      "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+                      "border": "1px solid var(--border)",
+                      "border-radius": "var(--r3)",
+                      "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+                      "display": "flex",
+                      "flex": "1 1 auto",
+                      "flex-direction": "column",
+                      "min-height": "0",
+                      "min-width": "0",
+                      "overflow": "hidden"
+                    },
+                    "text": "触控板设备2 个已连接SYNA8004:00 06CB:CE58 Touchpad/dev/input/event12 · seat0监听中ELAN2514:00 04F3:317C Touchpad/dev/input/event7 · "
+                  },
+                  "props": [],
+                  "interactions": [],
+                  "states": [],
+                  "children": [],
+                  "source": "dom"
+                }
+              ],
+              "source": "dom"
+            }
+          ],
+          "source": "dom"
+        }
+      ],
+      "states": [],
+      "acceptance": [],
+      "dependencies": {
+        "apis": [],
+        "entities": [],
+        "components": [
+          "comp-app-shell",
+          "comp-title-bar",
+          "comp-main-panel",
+          "comp-view-tabs",
+          "comp-touchpad-visualization",
+          "comp-live-telemetry",
+          "comp-gesture-event-stream",
+          "comp-right-sidebar",
+          "comp-gesture-stats",
+          "comp-device-list"
+        ]
+      },
+      "visualFacts": {
+        "artboardWidth": 112,
+        "artboardHeight": 112,
+        "artboardSource": "css",
+        "deviceType": "desktop",
+        "pageBackground": "#4fd1c5",
+        "componentStyles": {
+          "app-shell": {
+            "display": "flex",
+            "flex-direction": "column",
+            "height": "100vh",
+            "overflow": "hidden"
+          },
+          "device-list": {
+            "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+            "display": "flex",
+            "flex": "1 1 auto",
+            "flex-direction": "column",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "gesture-event-stream": {
+            "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+            "display": "flex",
+            "flex": "none",
+            "flex-direction": "column",
+            "height": "236px",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "gesture-stats": {
+            "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+            "display": "flex",
+            "flex": "none",
+            "flex-direction": "column",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "live-telemetry": {
+            "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+            "display": "flex",
+            "flex-direction": "column",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "main-panel": {
+            "display": "flex",
+            "flex-direction": "column",
+            "gap": "var(--s4)",
+            "min-height": "0",
+            "min-width": "0"
+          },
+          "right-sidebar": {
+            "display": "flex",
+            "flex-direction": "column",
+            "gap": "var(--s4)",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "title-bar": {
+            "align-items": "center",
+            "background": "linear-gradient(180deg,#1a1f27 0%,#151920 100%)",
+            "border-bottom": "1px solid var(--border)",
+            "box-shadow": "0 1px 0 rgba(255,255,255,.02), var(--sh-1)",
+            "display": "flex",
+            "flex": "none",
+            "gap": "var(--s4)",
+            "height": "56px",
+            "padding": "0 var(--s4)",
+            "position": "relative"
+          },
+          "touchpad-visualization": {
+            "background": "linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 120px),\n      var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "inset 0 1px 0 rgba(255,255,255,.035), var(--sh-1)",
+            "display": "flex",
+            "flex-direction": "column",
+            "min-height": "0",
+            "min-width": "0",
+            "overflow": "hidden"
+          },
+          "view-tabs": {
+            "align-items": "center",
+            "background": "var(--panel)",
+            "border": "1px solid var(--border)",
+            "border-radius": "var(--r3)",
+            "box-shadow": "var(--sh-1)",
+            "display": "flex",
+            "flex": "none",
+            "gap": "var(--s1)",
+            "padding": "var(--s1)"
+          }
+        },
+        "bgColors": [
+          {
+            "value": "#d4a853",
+            "count": 6
+          },
+          {
+            "value": "#e05c5c",
+            "count": 4
+          },
+          {
+            "value": "#222831",
+            "count": 3
+          },
+          {
+            "value": "#4ecb8f",
+            "count": 3
+          },
+          {
+            "value": "#4fd1c5",
+            "count": 3
+          },
+          {
+            "value": "#ffffff",
+            "count": 3
+          },
+          {
+            "value": "#000000",
+            "count": 2
+          },
+          {
+            "value": "#080a0d",
+            "count": 1
+          },
+          {
+            "value": "#12161c",
+            "count": 1
+          },
+          {
+            "value": "#151920",
+            "count": 1
+          },
+          {
+            "value": "#181c22",
+            "count": 1
+          },
+          {
+            "value": "#1a1f27",
+            "count": 1
+          }
+        ],
+        "surfaceColors": [
+          {
+            "value": "#ffffff",
+            "count": 5
+          },
+          {
+            "value": "#151920",
+            "count": 1
+          }
+        ],
+        "textColors": [
+          {
+            "value": "#d4a853",
+            "count": 4
+          },
+          {
+            "value": "#000000",
+            "count": 2
+          },
+          {
+            "value": "#4fd1c5",
+            "count": 2
+          },
+          {
+            "value": "#8ee6b6",
+            "count": 2
+          },
+          {
+            "value": "#f09393",
+            "count": 2
+          },
+          {
+            "value": "#0c0e12",
+            "count": 1
+          },
+          {
+            "value": "#0f1216",
+            "count": 1
+          },
+          {
+            "value": "#161a20",
+            "count": 1
+          },
+          {
+            "value": "#1a1f27",
+            "count": 1
+          },
+          {
+            "value": "#1c2129",
+            "count": 1
+          },
+          {
+            "value": "#1e232b",
+            "count": 1
+          },
+          {
+            "value": "#231a07",
+            "count": 1
+          }
+        ],
+        "accentColors": [
+          {
+            "value": "#ffffff",
+            "count": 20
+          },
+          {
+            "value": "#d4a853",
+            "count": 14
+          },
+          {
+            "value": "#000000",
+            "count": 7
+          },
+          {
+            "value": "#4fd1c5",
+            "count": 7
+          },
+          {
+            "value": "#4ecb8f",
+            "count": 4
+          },
+          {
+            "value": "#1a1f27",
+            "count": 2
+          },
+          {
+            "value": "#5b9dff",
+            "count": 2
+          },
+          {
+            "value": "#e05c5c",
+            "count": 2
+          },
+          {
+            "value": "#191d24",
+            "count": 1
+          },
+          {
+            "value": "#1e2229",
+            "count": 1
+          },
+          {
+            "value": "#22262d",
+            "count": 1
+          },
+          {
+            "value": "#262b33",
+            "count": 1
+          },
+          {
+            "value": "#2b323c",
+            "count": 1
+          },
+          {
+            "value": "#2c3138",
+            "count": 1
+          },
+          {
+            "value": "#31373f",
+            "count": 1
+          },
+          {
+            "value": "#3a4048",
+            "count": 1
+          }
+        ],
+        "radii": [
+          {
+            "value": "var(--r2)",
+            "count": 7
+          },
+          {
+            "value": "999px",
+            "count": 5
+          },
+          {
+            "value": "6px",
+            "count": 4
+          },
+          {
+            "value": "8px",
+            "count": 4
+          },
+          {
+            "value": "12px",
+            "count": 3
+          },
+          {
+            "value": "10px",
+            "count": 2
+          },
+          {
+            "value": "2px",
+            "count": 2
+          },
+          {
+            "value": "4px",
+            "count": 2
+          }
+        ],
+        "spacings": [
+          {
+            "value": "0px",
+            "count": 17
+          },
+          {
+            "value": "2px",
+            "count": 8
+          },
+          {
+            "value": "6px",
+            "count": 8
+          },
+          {
+            "value": "9px",
+            "count": 7
+          },
+          {
+            "value": "5px",
+            "count": 5
+          },
+          {
+            "value": "7px",
+            "count": 5
+          },
+          {
+            "value": "8px",
+            "count": 5
+          },
+          {
+            "value": "10px",
+            "count": 4
+          },
+          {
+            "value": "3px",
+            "count": 4
+          },
+          {
+            "value": "11px",
+            "count": 3
+          },
+          {
+            "value": "13px",
+            "count": 3
+          },
+          {
+            "value": "1px",
+            "count": 2
+          }
+        ],
+        "fontSizes": [
+          {
+            "value": "12px",
+            "count": 15
+          },
+          {
+            "value": "11px",
+            "count": 14
+          },
+          {
+            "value": "13px",
+            "count": 6
+          },
+          {
+            "value": "10px",
+            "count": 1
+          },
+          {
+            "value": "14px",
+            "count": 1
+          },
+          {
+            "value": "15px",
+            "count": 1
+          },
+          {
+            "value": "17px",
+            "count": 1
+          },
+          {
+            "value": "18px",
+            "count": 1
+          }
+        ],
+        "fontFamilies": [
+          {
+            "value": "Inter",
+            "count": 2
+          },
+          {
+            "value": "SFMono-Regular",
+            "count": 1
+          }
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "pageCount": 1,
+    "componentCount": 10,
+    "acceptanceCount": 0,
+    "bindingCoverage": 0.0,
+    "ruleDerived": 10,
+    "aiDerived": 0
+  },
+  "unresolved": [
+    "组件语义命名与分类（name / kind / role）待 AI 补全",
+    "组件 props / states 待 AI 从表单与交互元素推断",
+    "dataBinding（entity / api / fields）待 AI 推断 + tech_plan 回填",
+    "acceptance（逐页验收标准）待 AI 生成"
+  ],
+  "techPlanHash": "2cc3cf42ed2f38a0b33d61428ef326e50df8fe87c7ebda14691e5fb855ba4b4b"
+}

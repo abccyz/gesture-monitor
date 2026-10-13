@@ -1,0 +1,12 @@
+[
+  {
+    "content": "登记实现任务：contract 契约任务 + page-6a673190 页级任务",
+    "activeForm": "登记实现任务",
+    "status": "completed"
+  },
+  {
+    "content": "等待 contract 和 page-6a673190 两个子 Agent 完成执行",
+    "activeForm": "等待团队执行完成",
+    "status": "in_progress"
+  }
+]

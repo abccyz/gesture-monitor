@@ -1,0 +1,16 @@
+{
+  "identifier": "default",
+  "description": "Default capability for gesture monitor",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "core:event:default",
+    "core:event:allow-emit",
+    "core:event:allow-listen",
+    "core:window:allow-minimize",
+    "core:window:allow-toggle-maximize",
+    "core:window:allow-close",
+    "core:window:allow-start-dragging"
+  ],
+  "local": true
+}
