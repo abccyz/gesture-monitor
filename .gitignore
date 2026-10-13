@@ -32,3 +32,9 @@ Thumbs.db
 
 # 测试与覆盖率
 coverage/
+
+# Rust 工具链生成物
+**/*.rs.bk
+*.pdb
+**/mutants.out*/
+rustc-ice-*.txt
