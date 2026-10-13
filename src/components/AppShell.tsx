@@ -18,7 +18,9 @@ async function windowAction(action: WindowAction) {
 
 /** 交互控件不参与拖动，避免点按钮时整窗跟着动 */
 function isInteractive(target: EventTarget | null) {
-  return target instanceof HTMLElement && !!target.closest("button, a, input, select, textarea");
+  // 用 Element 而非 HTMLElement：按钮内的 <svg>/<use> 图标不属于 HTMLElement，
+  // 否则点图标会被误判为非交互并触发 startDragging，click 被吞导致关闭等按钮失效
+  return target instanceof Element && !!target.closest("button, a, input, select, textarea");
 }
 
 /** 拖动自定义标题栏窗体 */
