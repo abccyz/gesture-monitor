@@ -2,6 +2,10 @@
 
 A Linux touchpad gesture monitor and mapper built with Tauri 2 + React. Detects touchpad gestures in real-time with visual feedback, and supports mapping gestures to system actions such as workspace switching, zooming, and Mission Control.
 
+![Gesture Monitor main window](docs/home.png)
+
+> Main window: the virtual touchpad visualizes finger positions and gesture trajectories in real time, alongside the gesture event stream, mapping config, device list and statistics.
+
 ## Features
 
 - **Real-time Gesture Detection** — Identifies swipe, pinch, rotate, and hold gestures via libinput
